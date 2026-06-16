@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Terima Kasih - Akses Kalkulator HPP Premium</title>
+    <title>Kalkulator HPP & Harga Jual</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
@@ -19,14 +19,21 @@
             --success: #059669;
             --success-subtle: #ecfdf5;
             --success-border: #a7f3d0;
+            --danger: #dc2626;
+            --danger-subtle: #fef2f2;
+            --danger-border: #fecaca;
+            --warning: #d97706;
+            --warning-subtle: #fffbeb;
             --text: #0f172a;
             --text-secondary: #475569;
             --text-muted: #94a3b8;
             --border: #e2e8f0;
+            --border-strong: #cbd5e1;
             --radius-xl: 20px;
             --radius-lg: 14px;
             --radius-md: 10px;
             --radius-sm: 7px;
+            --shadow-sm: 0 1px 2px rgba(15,23,42,.06), 0 1px 3px rgba(15,23,42,.04);
             --shadow-md: 0 4px 8px rgba(15,23,42,.07), 0 2px 4px rgba(15,23,42,.04);
             --shadow-lg: 0 12px 24px rgba(15,23,42,.08), 0 4px 8px rgba(15,23,42,.04);
             --shadow-primary: 0 4px 14px rgba(79,70,229,.25);
@@ -44,270 +51,1099 @@
             -webkit-font-smoothing: antialiased;
             background: var(--bg);
             color: var(--text);
-            line-height: 1.6;
+            line-height: 1.5;
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
         }
 
-        .container {
-            width: 100%;
-            max-width: 550px;
-            background: var(--surface);
-            border-radius: var(--radius-xl);
-            border: 1px solid var(--border);
-            box-shadow: var(--shadow-lg);
-            overflow: hidden;
-            animation: fadeIn 0.5s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .header-banner {
-            background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
-            padding: 35px 24px;
-            text-align: center;
-            color: white;
-            position: relative;
-        }
-
-        .icon-wrapper {
-            width: 60px;
+        /* ─── TOPBAR ─── */
+        .topbar {
+            position: fixed;
+            inset: 0 0 auto 0;
+            z-index: 100;
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
             height: 60px;
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            border-radius: var(--radius-lg);
-            display: grid;
-            place-items: center;
-            margin: 0 auto 16px;
-        }
-
-        .icon-wrapper svg {
-            width: 30px;
-            height: 30px;
-            fill: white;
-        }
-
-        .header-banner h1 {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 22px;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-            margin-bottom: 6px;
-        }
-
-        .header-banner p {
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.85);
-            font-weight: 500;
-        }
-
-        .content-body {
-            padding: 30px 24px;
-        }
-
-        .instruction-box {
-            background: var(--surface-subtle);
-            border: 1.5px solid var(--border);
-            border-radius: var(--radius-lg);
-            padding: 20px;
-            margin-bottom: 24px;
-        }
-
-        .instruction-title {
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            margin-bottom: 16px;
             display: flex;
             align-items: center;
-            gap: 6px;
-        }
-
-        .step-list {
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-        }
-
-        .step-item {
-            display: flex;
+            padding: 0 20px;
             gap: 12px;
-            align-items: flex-start;
         }
 
-        .step-number {
-            width: 24px;
-            height: 24px;
-            background: var(--primary-subtle);
-            color: var(--primary);
-            border: 1px solid var(--primary-border);
-            border-radius: 50%;
+        .topbar-icon {
+            width: 34px;
+            height: 34px;
+            background: var(--primary);
+            border-radius: var(--radius-sm);
             display: grid;
             place-items: center;
-            font-size: 12px;
-            font-weight: 700;
             flex-shrink: 0;
-            margin-top: 2px;
         }
 
-        .step-text {
-            font-size: 13.5px;
-            color: var(--text-secondary);
-            font-weight: 500;
-        }
+        .topbar-icon svg { width: 18px; height: 18px; fill: white; }
 
-        .step-text strong {
+        .topbar-text h1 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 800;
             color: var(--text);
-            font-weight: 600;
+            letter-spacing: -0.3px;
+            line-height: 1.2;
         }
 
-        .btn-main {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            background: var(--primary);
-            color: white;
-            font-family: inherit;
-            font-size: 15px;
-            font-weight: 700;
-            height: 52px;
-            width: 100%;
-            border-radius: var(--radius-md);
-            box-shadow: var(--shadow-primary);
-            border: none;
-            cursor: pointer;
-            text-decoration: none;
-            transition: all 0.15s;
-            text-align: center;
-        }
-
-        .btn-main:hover {
-            background: var(--primary-hover);
-            transform: translateY(-1px);
-            box-shadow: 0 6px 20px rgba(79,70,229,.3);
-        }
-
-        .btn-main:active {
-            transform: translateY(0);
-        }
-
-        .footer-note {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 12px;
+        .topbar-text p {
+            font-size: 11px;
             color: var(--text-muted);
             font-weight: 500;
         }
 
-        /* ── TOMBOL WHATSAPP MELAYANG ── */
-        .wa-float {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            background-color: #25d366;
-            color: white;
-            border-radius: 50px;
-            text-align: center;
-            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+        .topbar-live {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--success-subtle);
+            border: 1px solid var(--success-border);
+            border-radius: 20px;
+            padding: 4px 10px;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--success);
+            white-space: nowrap;
+        }
+
+        .live-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--success);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
+        }
+
+        /* ─── LAYOUT ─── */
+        .page-wrap {
+            padding-top: 72px;
+            padding-bottom: 32px;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding-left: 16px;
+            padding-right: 16px;
+        }
+
+        .two-col {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        @media (min-width: 960px) {
+            .page-wrap { padding-left: 28px; padding-right: 28px; }
+            .two-col {
+                display: grid;
+                grid-template-columns: 1fr 380px;
+                gap: 24px;
+                align-items: start;
+            }
+            .sticky-panel {
+                position: sticky;
+                top: 80px;
+            }
+        }
+
+        /* ─── CARDS ─── */
+        .card {
+            background: var(--surface);
+            border-radius: var(--radius-xl);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+        }
+
+        .card-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 20px 0;
+            margin-bottom: 16px;
+        }
+
+        .card-head-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: var(--radius-sm);
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+        }
+
+        .card-icon svg { width: 16px; height: 16px; }
+        .card-icon.indigo { background: var(--primary-subtle); }
+        .card-icon.indigo svg { fill: var(--primary); }
+        .card-icon.amber { background: var(--warning-subtle); }
+        .card-icon.amber svg { fill: var(--warning); }
+        .card-icon.teal { background: var(--success-subtle); }
+        .card-icon.teal svg { fill: var(--success); }
+
+        .card-label {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text);
+            letter-spacing: -0.2px;
+        }
+
+        .card-sublabel {
+            font-size: 11px;
+            color: var(--text-muted);
+            font-weight: 500;
+            margin-top: 1px;
+        }
+
+        .card-body {
+            padding: 0 20px 20px;
+        }
+
+        /* ─── FORM ELEMENTS ─── */
+        .form-stack { display: flex; flex-direction: column; gap: 14px; }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .form-row.trio { grid-template-columns: 1fr 1fr 1fr; }
+
+        .field { display: flex; flex-direction: column; gap: 5px; }
+
+        .field-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* ─── INPUT WRAPPER: prefix/suffix as attached labels ─── */
+        .input-wrap {
+            display: flex;
+            align-items: stretch;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            background: var(--surface-subtle);
+            transition: border-color 0.15s, box-shadow 0.15s;
+        }
+
+        .input-wrap:focus-within {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79,70,229,.12);
+            background: var(--surface);
+        }
+
+        .input-prefix, .input-suffix {
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-muted);
+            background: var(--border);
+            white-space: nowrap;
+            user-select: none;
+            flex-shrink: 0;
+        }
+
+        .input-wrap input[type="text"],
+        .input-wrap input[type="number"],
+        .input-wrap select {
+            border: none !important;
+            border-radius: 0 !important;
+            box-shadow: none !important;
+            background: transparent !important;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .input-wrap:focus-within input,
+        .input-wrap:focus-within select {
+            background: transparent !important;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: 100%;
+            height: 44px;
+            background: var(--surface-subtle);
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 0 12px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text);
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+            -webkit-appearance: none;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        select:focus {
+            background: var(--surface);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79,70,229,.12);
+        }
+
+        .has-prefix { padding-left: 36px; }
+        .has-suffix { padding-right: 36px; }
+
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
+
+        /* ─── INGREDIENT CARD ─── */
+        .item-list { display: flex; flex-direction: column; gap: 12px; }
+
+        .item-card {
+            background: var(--surface-subtle);
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 14px;
+            position: relative;
+        }
+
+        .item-card-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        @media (min-width: 540px) {
+            .item-card-grid { grid-template-columns: 2fr 1fr 1fr 1fr; }
+            .item-card-grid .field:first-child { grid-column: 1 / 2; }
+        }
+
+        .item-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 10px;
+            border-top: 1px solid var(--border);
+            gap: 10px;
+        }
+
+        .item-subtotal {
             display: flex;
             align-items: center;
             gap: 8px;
-            padding: 12px 18px;
-            text-decoration: none;
-            font-size: 13px;
+        }
+
+        .item-subtotal-label {
+            font-size: 11px;
             font-weight: 700;
-            z-index: 999;
-            transition: all 0.2s ease;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
         }
 
-        .wa-float:hover {
-            background-color: #128c7e;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(18, 140, 126, 0.4);
+        .item-subtotal-value {
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--text);
         }
 
-        .wa-float svg {
-            width: 18px;
-            height: 18px;
-            fill: white;
+        /* ─── DIVIDER ─── */
+        .section-divider {
+            height: 1px;
+            background: var(--border);
+            margin: 4px 0 16px;
         }
 
-        @media (max-width: 480px) {
-            body { padding: 12px; }
-            .header-banner { padding: 25px 16px; }
-            .content-body { padding: 20px 16px; }
-            .wa-float span { display: none; }
-            .wa-float { padding: 14px; border-radius: 50%; bottom: 16px; right: 16px; }
+        /* ─── BUTTONS ─── */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            font-family: inherit;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            transition: all 0.15s;
+        }
+
+        .btn-add {
+            background: var(--primary-subtle);
+            color: var(--primary);
+            border: 1.5px solid var(--primary-border);
+            font-size: 12px;
+            height: 30px;
+            padding: 0 12px;
+            border-radius: 20px;
+        }
+
+        .btn-add:hover {
+            background: #e0e7ff;
+            border-color: #a5b4fc;
+        }
+
+        .btn-del {
+            background: var(--danger-subtle);
+            color: var(--danger);
+            border: 1px solid var(--danger-border);
+            font-size: 12px;
+            height: 30px;
+            padding: 0 12px;
+            border-radius: var(--radius-sm);
+            flex-shrink: 0;
+        }
+
+        .btn-del:hover { background: #fee2e2; }
+
+        .btn-cta {
+            background: var(--primary);
+            color: white;
+            font-size: 14px;
+            font-weight: 700;
+            height: 48px;
+            width: 100%;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-primary);
+            margin-top: 14px;
+        }
+
+        .btn-cta:hover { background: var(--primary-hover); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(79,70,229,.3); }
+        .btn-cta:active { transform: translateY(0); }
+
+        /* ─── SUMMARY PANEL ─── */
+        .summary-header {
+            background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
+            padding: 20px;
+            border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+        }
+
+        .summary-header-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: rgba(255,255,255,0.65);
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            margin-bottom: 4px;
+        }
+
+        .summary-product-name {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 18px;
+            font-weight: 800;
+            color: white;
+            letter-spacing: -0.4px;
+            min-height: 24px;
+        }
+
+        .summary-body { padding: 16px 20px 20px; }
+
+        .metric-list { display: flex; flex-direction: column; gap: 10px; }
+
+        .metric-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 13px 14px;
+            border-radius: var(--radius-md);
+            background: var(--surface-subtle);
+            border: 1.5px solid var(--border);
+        }
+
+        .metric-item.highlight {
+            background: var(--success-subtle);
+            border-color: var(--success-border);
+        }
+
+        .metric-item.accent {
+            background: var(--primary-subtle);
+            border-color: var(--primary-border);
+        }
+
+        .metric-left {}
+
+        .metric-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            margin-bottom: 2px;
+        }
+
+        .metric-item.highlight .metric-label { color: var(--success); }
+        .metric-item.accent .metric-label { color: var(--primary); }
+
+        .metric-value {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 17px;
+            font-weight: 800;
+            color: var(--text);
+            letter-spacing: -0.5px;
+        }
+
+        .metric-item.highlight .metric-value { color: var(--success); font-size: 20px; }
+        .metric-item.accent .metric-value { color: var(--primary); font-size: 18px; }
+
+        .metric-tag {
+            font-size: 10px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 20px;
+            white-space: nowrap;
+        }
+
+        .tag-neutral { background: var(--border); color: var(--text-secondary); }
+        .tag-success { background: var(--success-subtle); color: var(--success); border: 1px solid var(--success-border); }
+        .tag-primary { background: var(--primary-subtle); color: var(--primary); border: 1px solid var(--primary-border); }
+
+        /* Margin bar */
+        .margin-bar-wrap {
+            margin-top: 14px;
+            padding: 14px;
+            background: var(--surface-subtle);
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-md);
+        }
+
+        .margin-bar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .margin-bar-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+
+        .margin-bar-pct {
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .bar-track {
+            height: 6px;
+            background: var(--border);
+            border-radius: 99px;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4f46e5, #818cf8);
+            border-radius: 99px;
+            transition: width 0.4s ease;
+            width: 0%;
+        }
+
+        /* ─── PRINT ─── */
+        @media print {
+            body { background: white; }
+            .topbar, .btn, .no-print { display: none !important; }
+            .page-wrap { padding-top: 0; }
+            .card { box-shadow: none; border: 1px solid #000; }
+            .two-col { display: block; }
+            .sticky-panel { position: static; margin-top: 24px; }
+        }
+
+        /* ─── EMPTY STATE ─── */
+        .empty-hint {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-muted);
+            font-size: 13px;
+            font-weight: 500;
+            border: 1.5px dashed var(--border);
+            border-radius: var(--radius-md);
+        }
+
+        /* ─── MOBILE: stack all fields to single column ─── */
+        @media (max-width: 400px) {
+            .form-row { grid-template-columns: 1fr; }
+            .form-row.trio { grid-template-columns: 1fr 1fr; }
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <!-- Banner Atas -->
-    <div class="header-banner">
-        <div class="icon-wrapper">
-            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-        </div>
-        <h1>Pembayaran Berhasil!</h1>
-        <p>Terima kasih telah membeli Kalkulator HPP Premium</p>
-    </div>
-
-    <!-- Konten Utama -->
-    <div class="content-body">
-        
-        <!-- Box Instruksi -->
-        <div class="instruction-box">
-            <div class="instruction-title">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--text-secondary)"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
-                Panduan Aktivasi Akses
+<!-- ── SCREEN LOGIN OVERLAY ── -->
+<div id="loginOverlay" style="position:fixed; inset:0; z-index:9999; background:var(--bg); display:flex; align-items:center; justify-content:center; padding:20px;">
+    <div class="card" style="width:100%; max-width:400px; padding:30px; box-shadow:var(--shadow-lg);">
+        <div style="text-align:center; margin-bottom:24px;">
+            <div style="width:48px; height:48px; background:var(--primary); border-radius:var(--radius-md); display:grid; place-items:center; margin:0 auto 12px;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M12 2c1.1 0 2 .9 2 2v2h-4V4c0-1.1.9-2 2-2zm6 4h-2V4c0-2.21-1.79-4-4-4S8 1.79 8 4v2H6c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-6 10c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></svg>
             </div>
-            <div class="step-list">
-                <div class="step-item">
-                    <div class="step-number">1</div>
-                    <div class="step-text">Tunggu sekitar <strong>5 - 10 detik</strong> selagi sistem kami mendaftarkan akun premium Anda secara otomatis.</div>
-                </div>
-                <div class="step-item">
-                    <div class="step-number">2</div>
-                    <div class="step-text">Siapkan data <strong>Nama Lengkap</strong> dan <strong>Nomor HP</strong> yang baru saja Anda isi di halaman checkout Lynk.id sebelum melakukan pembayaran.</div>
-                </div>
-                <div class="step-item">
-                    <div class="step-number">3</div>
-                    <div class="step-text">Klik tombol utama di bawah untuk menuju ke aplikasi, lalu login menggunakan data Nama & Nomor HP tersebut.</div>
-                </div>
-            </div>
+            <h2 style="font-family:'Plus Jakarta Sans', sans-serif; font-size:20px; font-weight:800; color:var(--text); letter-spacing:-0.5px;">Akses Premium</h2>
+            <p style="font-size:13px; color:var(--text-secondary); margin-top:4px;">Masukkan data sesuai saat Anda membeli di Lynk.id</p>
         </div>
 
-        <!-- Tombol CTA Utama -->
-        <a href="https://hpppremium.warunkarsi.com" class="btn-main">
-            Buka Aplikasi Kalkulator HPP
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M5 13h11.86l-5.43 5.43 1.42 1.42L21.14 12l-8.29-8.29-1.42 1.42L16.86 11H5v2z"/></svg>
-        </a>
-
-        <div class="footer-note">
-            by Warunk Arsi · Hak Cipta Dilindungi
+        <div class="form-stack">
+            <div class="field">
+                <label class="field-label">Nama Lengkap</label>
+                <input type="text" id="loginNama" placeholder="Contoh: Baim">
+            </div>
+            <div class="field">
+                <label class="field-label">Nomor WhatsApp</label>
+                <input type="text" id="loginWA" placeholder="Contoh: 08123456789">
+            </div>
+            <button class="btn btn-cta" id="btnLogin" onclick="prosesAuthGoogleSheets()" style="margin-top:10px;">Masuk Aplikasi</button>
         </div>
     </div>
 </div>
 
-<!-- Tombol WhatsApp Melayang -->
-<a href="https://wa.me/6285179660408?text=Halo%20Admin%2C%20saya%20baru%20saja%20membeli%20Kalkulator%20HPP%20Premium%20tapi%20butuh%20bantuan%20akses." class="wa-float" target="_blank">
-    <svg viewBox="0 0 24 24">
-        <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.003 5.256 5.264 0 11.73 0c3.132.001 6.077 1.22 8.29 3.433 2.212 2.214 3.43 5.159 3.43 8.292-.005 6.475-5.266 11.732-11.733 11.732-2.006-.001-3.979-.515-5.733-1.498L0 24zm6.59-4.846c1.657.983 3.283 1.512 5.142 1.513 5.374 0 9.748-4.371 9.753-9.744a9.715 9.715 0 0 0-2.853-6.892A9.718 9.718 0 0 0 11.74 3.4c-5.38 0-9.754 4.373-9.759 9.748-.001 1.95.522 3.513 1.542 5.138L2.481 21.5l3.242-.851zM17.84 15.6c-.334-.167-1.97-.974-2.274-1.087-.304-.112-.525-.167-.746.167-.221.333-.855 1.087-1.048 1.307-.193.22-.387.243-.72.076-.334-.167-1.408-.52-2.683-1.657-1.002-.894-1.677-2.004-1.873-2.338-.196-.333-.021-.514.146-.68.15-.148.334-.39.501-.585.167-.194.222-.334.333-.556.112-.222.056-.417-.028-.585-.084-.167-.746-1.803-1.022-2.47-.27-.648-.545-.561-.746-.572-.192-.01-.413-.012-.634-.012s-.58.083-.884.416c-.304.334-1.162 1.139-1.162 2.777 0 1.64 1.193 3.22 1.36 3.442.166.222 2.348 3.587 5.69 5.034.795.345 1.416.55 1.9.707.8.254 1.528.218 2.103.132.64-.096 1.97-.805 2.247-1.583.277-.777.277-1.444.194-1.584-.083-.14-.304-.223-.64-.39z"/>
-    </svg>
-    <span>Butuh Bantuan CS?</span>
-</a>
 
+<header class="topbar">
+    <div class="topbar-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M3 3h7v7H3zm11 0h7v7h-7zm0 11h7v7h-7zM3 21l4-7 4 7z"/></svg>
+    </div>
+    <div class="topbar-text">
+        <h1>Kalkulator HPP & Harga Jual</h1>
+        <p>Hitung biaya produksi secara real-time &nbsp;·&nbsp; <strong style="color:var(--primary)">by Warunk Arsi</strong></p>
+    </div>
+    <div class="topbar-live">
+        <span class="live-dot"></span>
+        Live
+    </div>
+</header>
+
+<!-- ── PAGE ── -->
+<main class="page-wrap">
+    <div class="two-col">
+
+        <!-- ═══ LEFT COLUMN ═══ -->
+        <div class="left-col">
+
+            <!-- CARD: KONFIGURASI -->
+            <div class="card" style="margin-bottom:16px;">
+                <div class="card-head">
+                    <div class="card-head-left">
+                        <div class="card-icon indigo" aria-hidden="true">
+                            <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zm1 14.5h-2v-2h2v2zm0-4h-2V7h2v5.5z"/></svg>
+                        </div>
+                        <div>
+                            <div class="card-label">Konfigurasi Dasar</div>
+                            <div class="card-sublabel">Nama produk, porsi & target margin</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="form-stack">
+                        <div class="field">
+                            <label class="field-label" for="pName">Nama Menu / Produk</label>
+                            <input type="text" id="pName" value="Kopi Susu Gula Aren" oninput="updateProductName(); calculateHpp();" placeholder="Contoh: Nasi Goreng Spesial">
+                        </div>
+                        <div class="form-row trio">
+                            <div class="field">
+                                <label class="field-label" for="pYield">Hasil Jadi</label>
+                                <div class="input-wrap">
+                                    <input type="number" id="pYield" value="1" min="1" oninput="calculateHpp()">
+                                    <span class="input-suffix">porsi</span>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="field-label" for="pMargin">Margin Target</label>
+                                <div class="input-wrap">
+                                    <input type="number" id="pMargin" value="50" min="0" max="99" oninput="calculateHpp()">
+                                    <span class="input-suffix">%</span>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="field-label" for="pTax">Pajak / PB1</label>
+                                <div class="input-wrap">
+                                    <input type="number" id="pTax" value="0" min="0" oninput="calculateHpp()">
+                                    <span class="input-suffix">%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARD: BAHAN BAKU -->
+            <div class="card" style="margin-bottom:16px;">
+                <div class="card-head">
+                    <div class="card-head-left">
+                        <div class="card-icon amber" aria-hidden="true">
+                            <svg viewBox="0 0 24 24"><path d="M11 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6v18zm2-11h6v2h-6v-2zm0 4h6v2h-6v-2zm0-8h6v2h-6V6z"/></svg>
+                        </div>
+                        <div>
+                            <div class="card-label">Bahan Baku</div>
+                            <div class="card-sublabel">Isi sesuai resep yang digunakan</div>
+                        </div>
+                    </div>
+                    <button class="btn btn-add" onclick="addIngredient()">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M19 13H13v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                        Tambah Bahan
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div id="ingredientList" class="item-list">
+                        <!-- default item -->
+                        <div class="item-card ingredient-node">
+                            <div class="item-card-grid">
+                                <div class="field">
+                                    <label class="field-label">Nama Bahan</label>
+                                    <input type="text" value="Espresso Blend Beans" placeholder="Nama bahan baku">
+                                </div>
+                                <div class="field">
+                                    <label class="field-label">Harga Toko (Rp)</label>
+                                    <div class="input-wrap">
+                                        <span class="input-prefix">Rp</span>
+                                        <input type="number" class="ing-price" value="150000" min="0" oninput="calculateHpp()">
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label class="field-label">Isi Kemasan</label>
+                                    <div class="input-wrap">
+                                        <input type="number" class="ing-size" value="1000" min="0.001" oninput="calculateHpp()">
+                                        <span class="input-suffix unit-badge">gr</span>
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label class="field-label">Satuan</label>
+                                    <select class="ing-unit" onchange="syncUnit(this)">
+                                        <option value="gr">gr</option>
+                                        <option value="ml">ml</option>
+                                        <option value="pcs">pcs</option>
+                                    </select>
+                                </div>
+                                <div class="field">
+                                    <label class="field-label">Takaran Pakai (<span class="unit-label">gr</span>)</label>
+                                    <input type="number" class="ing-used" value="18" min="0" oninput="calculateHpp()">
+                                </div>
+                            </div>
+                            <div class="item-footer">
+                                <div class="item-subtotal">
+                                    <span class="item-subtotal-label">Subtotal</span>
+                                    <span class="item-subtotal-value ing-item-cost">Rp 0</span>
+                                </div>
+                                <button class="btn btn-del" onclick="removeNode(this)">Hapus</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARD: KEMASAN & OVERHEAD -->
+            <div class="card">
+                <div class="card-head">
+                    <div class="card-head-left">
+                        <div class="card-icon teal" aria-hidden="true">
+                            <svg viewBox="0 0 24 24"><path d="M20 7h-1V5a3 3 0 0 0-3-3H8a3 3 0 0 0-3 3v2H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2zM7 5a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v2H7V5zm13 14H4V9h16v10z"/></svg>
+                        </div>
+                        <div>
+                            <div class="card-label">Kemasan & Operasional</div>
+                            <div class="card-sublabel">Packaging, gas, listrik, dsb.</div>
+                        </div>
+                    </div>
+                    <button class="btn btn-add" onclick="addOverhead()">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M19 13H13v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                        Tambah
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div id="overheadList" class="item-list">
+                        <div class="item-card overhead-node">
+                            <div class="form-stack">
+                                <div class="field">
+                                    <label class="field-label">Deskripsi Biaya</label>
+                                    <input type="text" value="Cup Plastik + Stiker Sablon" placeholder="Nama kemasan / biaya operasional">
+                                </div>
+                                <div class="field">
+                                    <label class="field-label">Alokasi Biaya</label>
+                                    <div class="input-wrap">
+                                        <span class="input-prefix">Rp</span>
+                                        <input type="number" class="ovr-cost" value="1500" min="0" oninput="calculateHpp()">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="item-footer" style="margin-top:12px;">
+                                <span></span>
+                                <button class="btn btn-del" onclick="removeNode(this)">Hapus</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ═══ RIGHT COLUMN: SUMMARY PANEL ═══ -->
+        <div class="sticky-panel no-print-sticky">
+            <div class="card" style="overflow:hidden;">
+                <!-- Header -->
+                <div class="summary-header">
+                    <div class="summary-header-label">Ringkasan Kalkulasi</div>
+                    <div class="summary-product-name" id="displayProductName">Kopi Susu Gula Aren</div>
+                </div>
+
+                <!-- Metrics -->
+                <div class="summary-body">
+                    <div class="metric-list">
+
+                        <div class="metric-item">
+                            <div class="metric-left">
+                                <div class="metric-label">Total Biaya Resep</div>
+                                <div class="metric-value" id="outTotalCost">Rp 0</div>
+                            </div>
+                            <span class="metric-tag tag-neutral">Resep</span>
+                        </div>
+
+                        <div class="metric-item">
+                            <div class="metric-left">
+                                <div class="metric-label">HPP Per Porsi</div>
+                                <div class="metric-value" id="outHppPerUnit">Rp 0</div>
+                            </div>
+                            <span class="metric-tag tag-neutral">Modal</span>
+                        </div>
+
+                        <div class="metric-item highlight">
+                            <div class="metric-left">
+                                <div class="metric-label">Rekomendasi Harga Jual</div>
+                                <div class="metric-value" id="outSuggested">Rp 0</div>
+                            </div>
+                            <span class="metric-tag tag-success">✓ Rekomendasi</span>
+                        </div>
+
+                        <div class="metric-item accent">
+                            <div class="metric-left">
+                                <div class="metric-label">Harga Konsumen (+Pajak)</div>
+                                <div class="metric-value" id="outFinal">Rp 0</div>
+                            </div>
+                            <span class="metric-tag tag-primary">Final</span>
+                        </div>
+
+                    </div>
+
+                    <!-- Margin bar -->
+                    <div class="margin-bar-wrap">
+                        <div class="margin-bar-header">
+                            <span class="margin-bar-label">Margin Profit Aktual</span>
+                            <span class="margin-bar-pct" id="marginPct">50%</span>
+                        </div>
+                        <div class="bar-track">
+                            <div class="bar-fill" id="marginBar"></div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-cta" onclick="window.print()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 8H5a3 3 0 0 0-3 3v4h4v4h12v-4h4v-4a3 3 0 0 0-3-3zm-3 11H8v-5h8v5zm1-11a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm1-5H6v3h12V3z"/></svg>
+                        Cetak Laporan
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<script>
+    // ══════════════════════════════════════════════════
+    // KONFIGURASI API GOOGLE SHEETS
+    // ══════════════════════════════════════════════════
+    const SPREADSHEET_ID = "184VqIsAyH7I-AmXhc8-UKhGGOhPt1-D35vIOAd66uE4";
+    const SHEET_NAME = "Sheet1"; // Sesuaikan dengan nama sheet di spreadsheet Anda
+
+    // ── Helper: parse gviz response dengan aman (offset bisa bervariasi) ──
+    function parseGvizResponse(rawText) {
+        // Google mengembalikan: google.visualization.Query.setResponse({...});
+        // Cari kurung kurawal pertama dan terakhir
+        const start = rawText.indexOf('{');
+        const end   = rawText.lastIndexOf('}');
+        if (start === -1 || end === -1) throw new Error("Format respons tidak dikenali.");
+        return JSON.parse(rawText.substring(start, end + 1));
+    }
+
+    // ── Helper: normalisasi nomor WA ──
+    // Google Sheets sering menyimpan angka tanpa leading zero (misal: 85175150408 bukan 085175150408)
+    function normWA(wa) {
+        wa = wa.toString().trim().replace(/[^0-9]/g, ""); // hapus semua non-digit
+        // Hilangkan awalan 62 atau 0, lalu simpan sebagai format 62xxx
+        if (wa.startsWith("62"))     return wa;           // sudah 62xxx → biarkan
+        if (wa.startsWith("0"))      return "62" + wa.substring(1); // 08xxx → 628xxx
+        if (wa.length >= 9)          return "62" + wa;   // 8xxx (tanpa 0/62) → 628xxx
+        return wa;
+    }
+
+    // Fungsi utama untuk memeriksa login ke Google Sheets secara real-time
+    async function prosesAuthGoogleSheets() {
+        const inputNama = document.getElementById("loginNama").value.trim().toLowerCase();
+        const inputWARaw = document.getElementById("loginWA").value.trim();
+        const btnLogin  = document.getElementById("btnLogin");
+
+        // ── Validasi input kosong ──
+        if (!inputNama) {
+            alert("Harap isi Nama Lengkap Anda!");
+            document.getElementById("loginNama").focus();
+            return;
+        }
+        if (!inputWARaw) {
+            alert("Harap isi Nomor WhatsApp Anda!");
+            document.getElementById("loginWA").focus();
+            return;
+        }
+
+        const inputWA = normWA(inputWARaw);
+
+        // ── Validasi format WA minimal 9 digit ──
+        if (inputWA.length < 9) {
+            alert("Nomor WhatsApp tidak valid. Contoh: 085175150408");
+            document.getElementById("loginWA").focus();
+            return;
+        }
+
+        // Ubah status tombol saat memproses
+        btnLogin.disabled    = true;
+        btnLogin.textContent = "Memvalidasi...";
+
+        try {
+            // Gunakan parameter tqx=out:json&headers=1 agar gviz menyertakan header baris pertama
+            const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}&headers=1`;
+
+            const response = await fetch(url, { cache: "no-store" });
+
+            // Jika Google mengembalikan redirect/login page (spreadsheet private)
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status} – pastikan spreadsheet sudah dibagikan ke publik (Anyone with the link → Viewer).`);
+            }
+
+            const rawText = await response.text();
+
+            // Deteksi halaman login Google (spreadsheet private)
+            if (rawText.includes("accounts.google.com") || rawText.includes("signin")) {
+                throw new Error("PRIVATE_SHEET");
+            }
+
+            const dataJson = parseGvizResponse(rawText);
+
+            if (!dataJson.table || !dataJson.table.rows) {
+                throw new Error("Tabel kosong atau nama sheet salah. Cek SHEET_NAME di kode.");
+            }
+
+            const rows = dataJson.table.rows;
+            let aksesDiterima = false;
+
+            // Looping untuk memeriksa setiap baris di Google Sheets
+            for (let row of rows) {
+                if (!row.c || row.c.length < 2) continue;
+                // Kolom A (index 0) = Nama, Kolom B (index 1) = No WA
+                const dbNama = row.c[0] && row.c[0].v != null ? row.c[0].v.toString().toLowerCase().trim() : "";
+                const dbWA   = row.c[1] && row.c[1].v != null ? normWA(row.c[1].v.toString()) : "";
+
+                if (dbNama === inputNama && dbWA === inputWA) {
+                    aksesDiterima = true;
+                    break;
+                }
+            }
+
+            if (aksesDiterima) {
+                localStorage.setItem("hpp_premium_auth", "true");
+                document.getElementById("loginOverlay").style.display = "none";
+            } else {
+                alert("❌ Akses Ditolak!\n\nNama atau Nomor WA tidak terdaftar.\nPastikan penulisan sama persis seperti saat membeli di Lynk.id.");
+            }
+
+        } catch (error) {
+            console.error("Error Auth:", error);
+
+            if (error.message === "PRIVATE_SHEET") {
+                alert(
+                    "⚠️ Spreadsheet belum dibuka aksesnya!\n\n" +
+                    "Langkah perbaikan:\n" +
+                    "1. Buka Google Spreadsheet Anda\n" +
+                    "2. Klik tombol 'Share' (pojok kanan atas)\n" +
+                    "3. Ubah akses menjadi:\n" +
+                    "   'Anyone with the link → Viewer'\n" +
+                    "4. Klik 'Done', lalu coba login lagi."
+                );
+            } else if (error.message.includes("Failed to fetch") || error.name === "TypeError") {
+                alert(
+                    "⚠️ Gagal terhubung ke Google Sheets!\n\n" +
+                    "Kemungkinan penyebab:\n" +
+                    "• Koneksi internet terputus\n" +
+                    "• Spreadsheet belum dibagikan ke publik\n\n" +
+                    "Pastikan spreadsheet di-set:\n" +
+                    "'Anyone with the link → Viewer'"
+                );
+            } else {
+                alert("⚠️ Error: " + error.message + "\n\nHubungi admin jika masalah berlanjut.");
+            }
+        } finally {
+            btnLogin.disabled    = false;
+            btnLogin.textContent = "Masuk Aplikasi";
+        }
+    }
+
+    // Fitur Auto-Login: Jika sebelumnya sudah pernah login sukses, tidak perlu login lagi
+    window.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem("hpp_premium_auth") === "true") {
+            document.getElementById("loginOverlay").style.display = "none";
+        }
+        calculateHpp();
+        updateProductName();
+    });
+
+    // ══════════════════════════════════════════════════
+    // CALCULATOR FUNCTIONS
+    // ══════════════════════════════════════════════════
+    function formatRp(val) {
+        return "Rp\u00a0" + Math.round(val).toLocaleString('id-ID');
+    }
+
+    function syncUnit(sel) {
+        const card = sel.closest('.ingredient-node');
+        const unit = sel.value;
+        card.querySelectorAll('.unit-badge, .unit-label').forEach(el => el.textContent = unit);
+        calculateHpp();
+    }
+
+    function removeNode(btn) {
+        btn.closest('.item-card').remove();
+        calculateHpp();
+    }
+
+    function addIngredient() {
+        const list = document.getElementById('ingredientList');
+        const div = document.createElement('div');
+        div.className = 'item-card ingredient-node';
+        div.innerHTML = `
+            <div class="item-card-grid">
+                <div class="field">
+                    <label class="field-label">Nama Bahan</label>
+                    <input type="text" placeholder="Nama bahan baku">
+                </div>
+                <div class="field">
+                    <label class="field-label">Harga Toko (Rp)</label>
+                    <div class="input-wrap">
+                        <span class="input-prefix">Rp</span>
+                        <input type="number" class="ing-price" value="0" min="0" oninput="calculateHpp()">
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="field-label">Isi Kemasan</label>
+                    <div class="input-wrap">
+                        <input type="number" class="ing-size" value="1" min="0.001" oninput="calculateHpp()">
+                        <span class="input-suffix unit-badge">gr</span>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="field-label">Satuan</label>
+                    <select class="ing-unit" onchange="syncUnit(this)">
+                        <option value="gr">gr</option>
+                        <option value="ml">ml</option>
+                        <option value="pcs">pcs</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label class="field-label">Takaran Pakai (<span class="unit-label">gr</span>)</label>
+                    <input type="number" class="ing-used" value="0" min="0" oninput="calculateHpp()">
+                </div>
+            </div>
+            <div class="item-footer">
+                <div class="item-subtotal">
+                    <span class="item-subtotal-label">Subtotal</span>
+                    <span class="item-subtotal-value ing-item-cost">Rp 0</span>
+                </div>
+                <button class="btn btn-del" onclick="removeNode(this)">Hapus</button>
+            </div>
+        `;
+        list.appendChild(div);
+        div.querySelector('input[type="text"]').focus();
+        calculateHpp();
+    }
+
+    function addOverhead() {
+        const list = document.getElementById('overheadList');
+        const div = document.createElement('div');
+        div.className = 'item-card overhead-node';
+        div.innerHTML = `
+            <div class="form-stack">
+                <div class="field">
+                    <label class="field-label">Deskripsi Biaya</label>
+                    <input type="text" placeholder="Kotak box, kantong, gas, listrik...">
+                </div>
+                <div class="field">
+                    <label class="field-label">Alokasi Biaya</label>
+                    <div class="input-wrap">
+                        <span class="input-prefix">Rp</span>
+                        <input type="number" class="ovr-cost" value="0" min="0" oninput="calculateHpp()">
+                    </div>
+                </div>
+            </div>
+            <div class="item-footer" style="margin-top:12px;">
+                <span></span>
+                <button class="btn btn-del" onclick="removeNode(this)">Hapus</button>
+            </div>
+        `;
+        list.appendChild(div);
+        div.querySelector('input[type="text"]').focus();
+        calculateHpp();
+    }
+
+    function updateProductName() {
+        const name = document.getElementById('pName').value.trim() || 'Nama Produk';
+        document.getElementById('displayProductName').textContent = name;
+    }
+
+    function calculateHpp() {
+        let totalIng = 0, totalOvr = 0;
+
+        document.querySelectorAll('.ingredient-node').forEach(node => {
+            const price = parseFloat(node.querySelector('.ing-price').value) || 0;
+            const size  = parseFloat(node.querySelector('.ing-size').value) || 1;
+            const used  = parseFloat(node.querySelector('.ing-used').value) || 0;
+            const cost  = (price / size) * used;
+            totalIng   += cost;
+            node.querySelector('.ing-item-cost').textContent = formatRp(cost);
+        });
+
+        document.querySelectorAll('.overhead-node').forEach(node => {
+            totalOvr += parseFloat(node.querySelector('.ovr-cost').value) || 0;
+        });
+
+        const gross   = totalIng + totalOvr;
+        const yieldV  = parseFloat(document.getElementById('pYield').value) || 1;
+        const margin  = parseFloat(document.getElementById('pMargin').value) || 0;
+        const tax     = parseFloat(document.getElementById('pTax').value) || 0;
+
+        const hpp = gross / yieldV;
+        const sell = margin < 100 ? hpp / (1 - margin / 100) : hpp * (1 + margin / 100);
+        const final = sell * (1 + tax / 100);
+
+        document.getElementById('outTotalCost').textContent  = formatRp(gross);
+        document.getElementById('outHppPerUnit').textContent = formatRp(hpp);
+        document.getElementById('outSuggested').textContent  = formatRp(sell);
+        document.getElementById('outFinal').textContent      = formatRp(final);
+
+        // Margin bar
+        const pct = Math.min(margin, 100);
+        document.getElementById('marginPct').textContent = margin.toFixed(0) + '%';
+        document.getElementById('marginBar').style.width = pct + '%';
+    }
+
+</script>
 </body>
 </html>
