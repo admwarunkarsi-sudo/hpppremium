@@ -81,7 +81,7 @@ export const InventoriController = {
             filtered = filtered.filter(i => {
                 const s = i.stock || 0;
                 // Asumsi threshold low stock adalah 20% dari baseQty, atau statis < 500
-                const threshold = (i.baseQty || 1000) * 0.2;
+                const threshold = (i.baseQty ?? i.packagingSize ?? 1000) * 0.2;
                 if (stat === 'empty') return s <= 0;
                 if (stat === 'low') return s > 0 && s <= threshold;
                 return true;
@@ -98,7 +98,7 @@ export const InventoriController = {
             
             filtered.forEach(i => {
                 const stock = i.stock || 0;
-                const threshold = (i.baseQty || 1000) * 0.2;
+                const threshold = (i.baseQty ?? i.packagingSize ?? 1000) * 0.2;
                 
                 let statusBadge = '';
                 if (stock <= 0) {
@@ -112,17 +112,17 @@ export const InventoriController = {
                 const tr = document.createElement('tr');
                 tr.className = 'hover:bg-slate-50 transition-colors';
                 tr.innerHTML = `
-                    <td class="px-6 py-4 font-semibold text-slate-800">${i.name}</td>
-                    <td class="px-6 py-4">
+                    <td class="px-3 sm:px-6 py-4 font-semibold text-slate-800">${i.name}</td>
+                    <td class="hidden sm:table-cell px-6 py-4">
                         <span class="px-3 py-1 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600">${i.category}</span>
                     </td>
-                    <td class="px-6 py-4 text-center">
-                        <div class="flex items-center justify-center gap-2">
-                            <input type="number" min="0" data-id="${i.id}" value="${stock}" class="inp-stok-fisik w-24 px-3 py-1.5 border border-slate-300 rounded-lg text-sm text-center focus:ring-2 focus:ring-wa-500/20 focus:border-wa-500 outline-none transition-all">
-                            <span class="text-xs text-slate-500 font-medium w-8 text-left">${i.unit}</span>
+                    <td class="px-3 sm:px-6 py-4 text-center">
+                        <div class="flex items-center justify-center gap-1 sm:gap-2">
+                            <input type="number" min="0" data-id="${i.id}" value="${stock}" class="inp-stok-fisik w-20 sm:w-24 px-2 sm:px-3 py-1.5 border border-slate-300 rounded-lg text-sm text-center focus:ring-2 focus:ring-wa-500/20 focus:border-wa-500 outline-none transition-all">
+                            <span class="text-[10px] sm:text-xs text-slate-500 font-medium w-8 text-left">${i.unit ?? i.buyUnit ?? 'gram'}</span>
                         </div>
                     </td>
-                    <td class="px-6 py-4">
+                    <td class="px-3 sm:px-6 py-4">
                         ${statusBadge}
                     </td>
                 `;

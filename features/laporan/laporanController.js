@@ -16,12 +16,31 @@ export const LaporanController = {
         } catch(e) {
             this.recipes = [];
         }
+
+        try {
+            const data = localStorage.getItem('warunk_arsi_master_ingredients');
+            const masters = data ? JSON.parse(data) : [];
+            this.ingredientsDict = {};
+            masters.forEach(i => {
+                this.ingredientsDict[i.id] = i;
+            });
+        } catch(e) {
+            this.ingredientsDict = {};
+        }
     },
 
     getRecipeMetrics(r) {
         // We calculate total production cost
-        const sumBahan = (r.ingredients || []).reduce((sum, item) => sum + (item.price || 0), 0);
-        const sumTambahan = (r.additionalCosts || []).reduce((sum, item) => sum + (item.cost || 0), 0);
+        const sumBahan = (r.ingredients || []).reduce((sum, item) => {
+            const master = this.ingredientsDict[item.ingredientId];
+            if (!master) return sum;
+            const price = master.price ?? master.buyPrice ?? ((master.unitPrice || 0) * (master.baseQty || master.packagingSize || 1));
+            const baseQty = master.baseQty ?? master.packagingSize ?? 1;
+            const unitPrice = price / baseQty;
+            return sum + (unitPrice * item.usedQty);
+        }, 0);
+        
+        const sumTambahan = (r.variableCosts || []).reduce((sum, item) => sum + (item.amount || 0), 0);
         const totalCost = sumBahan + sumTambahan;
         
         // HPP per Porsi

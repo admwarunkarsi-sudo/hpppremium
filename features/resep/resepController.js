@@ -133,9 +133,9 @@ export const ResepController = {
         document.getElementById('inpBahanId').value = ingredient.id;
         document.getElementById('inpBahanName').value = ingredient.name;
         document.getElementById('inpBahanKategori').value = ingredient.category;
-        document.getElementById('inpBahanSatuan').value = ingredient.unit;
-        document.getElementById('inpBahanKuantitas').value = ingredient.baseQty || 1000;
-        document.getElementById('inpBahanHarga').value = ingredient.price || (ingredient.unitPrice * (ingredient.baseQty || 1));
+        document.getElementById('inpBahanSatuan').value = ingredient.unit ?? ingredient.buyUnit ?? 'gram';
+        document.getElementById('inpBahanKuantitas').value = ingredient.baseQty ?? ingredient.packagingSize ?? 1000;
+        document.getElementById('inpBahanHarga').value = ingredient.price ?? ingredient.buyPrice ?? ((ingredient.unitPrice || 0) * (ingredient.baseQty || ingredient.packagingSize || 1));
 
         document.getElementById('modalBahanTitle').innerText = 'Edit Bahan Baku';
         document.getElementById('modalFormBahan').classList.remove('hidden');
@@ -172,7 +172,9 @@ export const ResepController = {
             emptyState.classList.remove('flex');
             
             filtered.forEach(i => {
-                const totalHarga = i.price || (i.unitPrice * (i.baseQty || 1));
+                const totalHarga = i.price ?? i.buyPrice ?? ((i.unitPrice || 0) * (i.baseQty || i.packagingSize || 1));
+                const qty = i.baseQty ?? i.packagingSize ?? 1000;
+                const unit = i.unit ?? i.buyUnit ?? 'gram';
                 const tr = document.createElement('tr');
                 tr.className = 'hover:bg-slate-50 transition-colors group';
                 tr.innerHTML = `
@@ -180,7 +182,7 @@ export const ResepController = {
                     <td class="hidden sm:table-cell px-3 sm:px-6 py-3 sm:py-4">
                         <span class="px-3 py-1 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600 whitespace-nowrap">${i.category}</span>
                     </td>
-                    <td class="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap">${i.baseQty || 1000} ${i.unit || 'gram'}</td>
+                    <td class="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap">${qty} ${unit}</td>
                     <td class="px-3 sm:px-6 py-3 sm:py-4 text-right font-semibold text-slate-800 whitespace-nowrap">${CurrencyUtils.format(totalHarga)}</td>
                     <td class="px-3 sm:px-6 py-3 sm:py-4 text-center">
                         <div class="flex items-center justify-center gap-2 transition-opacity">

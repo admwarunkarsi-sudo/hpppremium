@@ -343,9 +343,9 @@ export const HppController = {
             if(query && !master.name.toLowerCase().includes(query) && !master.category.toLowerCase().includes(query)) {
                 return; // skip
             }
-            const price = master.price || (master.unitPrice * (master.baseQty || 1));
-            const baseQty = master.baseQty || master.packagingSize || 1;
-            const buyUnit = master.unit || master.buyUnit || 'gram';
+            const price = master.price ?? master.buyPrice ?? ((master.unitPrice || 0) * (master.baseQty || master.packagingSize || 1));
+            const baseQty = master.baseQty ?? master.packagingSize ?? 1;
+            const buyUnit = master.unit ?? master.buyUnit ?? 'gram';
             
             html += `
                 <div class="p-3 border-b border-slate-100 hover:bg-slate-50 flex justify-between items-center cursor-pointer transition-colors" onclick="window.appController.addIngredient('${master.id}')">
@@ -409,9 +409,9 @@ export const HppController = {
             const master = this.ingredientsDict[ing.ingredientId] || this.ingredientsDict[ing.id];
             if(!master) return;
             
-            const price = master.price || (master.unitPrice * (master.baseQty || 1));
-            const baseQty = master.baseQty || master.packagingSize || 1;
-            const buyUnit = master.unit || master.buyUnit || 'gram';
+            const price = master.price ?? master.buyPrice ?? ((master.unitPrice || 0) * (master.baseQty || master.packagingSize || 1));
+            const baseQty = master.baseQty ?? master.packagingSize ?? 1;
+            const buyUnit = master.unit ?? master.buyUnit ?? 'gram';
             
             const unitPrice = price / baseQty;
             const rowTotal = unitPrice * ing.usedQty;
@@ -525,8 +525,8 @@ export const HppController = {
         this.currentRecipe.ingredients.forEach(ing => {
             const master = this.ingredientsDict[ing.ingredientId] || this.ingredientsDict[ing.id];
             if(master) {
-                const price = master.price || (master.unitPrice * (master.baseQty || 1));
-                const baseQty = master.baseQty || master.packagingSize || 1;
+                const price = master.price ?? master.buyPrice ?? ((master.unitPrice || 0) * (master.baseQty || master.packagingSize || 1));
+                const baseQty = master.baseQty ?? master.packagingSize ?? 1;
                 const unitPrice = price / baseQty;
                 
                 const row = unitPrice * ing.usedQty;
