@@ -570,6 +570,9 @@ export const HppController = {
 
         // Update UI
         document.getElementById('uiTotalBahan').innerText = CurrencyUtils.format(totalBahanCost);
+        const elMobileBahan = document.getElementById('uiTotalBahanMobile');
+        if (elMobileBahan) elMobileBahan.innerText = CurrencyUtils.format(totalBahanCost);
+        
         document.getElementById('sumBahan').innerText = CurrencyUtils.format(totalBahanCost);
         
         document.getElementById('uiTotalTambahan').innerText = CurrencyUtils.format(totalVariable);
