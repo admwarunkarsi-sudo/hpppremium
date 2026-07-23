@@ -128,12 +128,12 @@ export const LaporanController = {
 
             return `
                 <tr class="hover:bg-slate-50 transition-colors">
-                    <td class="px-6 py-4 font-semibold text-slate-800">${r.name}</td>
-                    <td class="px-6 py-4 text-center">${metrics.yieldQty}</td>
-                    <td class="px-6 py-4 text-right font-medium text-slate-600">${CurrencyUtils.format(metrics.totalCost)}</td>
-                    <td class="px-6 py-4 text-right font-bold text-slate-800">${CurrencyUtils.format(metrics.priceDineIn)}</td>
-                    <td class="px-6 py-4 text-center font-bold text-wa-600">${metrics.margin.toFixed(1)}%</td>
-                    <td class="px-6 py-4 text-center">${statusBadge}</td>
+                    <td class="px-3 sm:px-6 py-4 font-semibold text-slate-800">${r.name}</td>
+                    <td class="hidden sm:table-cell px-3 sm:px-6 py-4 text-center">${metrics.yieldQty}</td>
+                    <td class="hidden sm:table-cell px-3 sm:px-6 py-4 text-right font-medium text-slate-600">${CurrencyUtils.format(metrics.totalCost)}</td>
+                    <td class="px-3 sm:px-6 py-4 text-right font-bold text-slate-800">${CurrencyUtils.format(metrics.priceDineIn)}</td>
+                    <td class="px-3 sm:px-6 py-4 text-center font-bold text-wa-600">${metrics.margin.toFixed(1)}%</td>
+                    <td class="hidden sm:table-cell px-3 sm:px-6 py-4 text-center">${statusBadge}</td>
                 </tr>
             `;
         }).join('');

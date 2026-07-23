@@ -402,9 +402,11 @@ export const HppController = {
 
     renderIngredientsTable() {
         const tbody = document.getElementById('ingredientsTableBody');
+        const cardList = document.getElementById('ingredientsCardList');
         if(!tbody || !this.currentRecipe) return;
         
         let html = '';
+        let cardHtml = '';
         this.currentRecipe.ingredients.forEach((ing, idx) => {
             const master = this.ingredientsDict[ing.ingredientId] || this.ingredientsDict[ing.id];
             if(!master) return;
@@ -445,9 +447,32 @@ export const HppController = {
                     </td>
                 </tr>
             `;
+
+            cardHtml += `
+                <div class="p-4 flex flex-col gap-3">
+                    <div class="flex items-start justify-between w-full">
+                        <div>
+                            <p class="font-bold text-slate-800 text-sm">${master.name}</p>
+                            <p class="text-xs text-slate-500 mt-0.5">${CurrencyUtils.format(price)} per ${baseQty} ${buyUnit}</p>
+                            <p class="font-black text-wa-800 mt-1">${CurrencyUtils.format(rowTotal)}</p>
+                        </div>
+                        <button onclick="window.appController.removeIngredient(${idx})" class="text-slate-400 hover:text-red-500 p-1.5 rounded-lg bg-slate-50 transition-colors border border-slate-100">
+                            <i data-lucide="trash-2" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                    <div class="flex items-center justify-between bg-slate-50 p-2.5 rounded-lg border border-slate-100 w-full">
+                        <span class="text-xs font-bold text-slate-600">Jumlah Dipakai:</span>
+                        <div class="flex items-center gap-2">
+                            <input type="number" value="${ing.usedQty}" onchange="window.appController.updateIngredientQty(${idx}, this.value)" class="w-20 font-bold p-1.5 border border-slate-200 rounded-md text-sm text-center focus:ring-2 focus:ring-wa-500 focus:border-transparent outline-none bg-white">
+                            <span class="text-xs font-medium text-slate-500 w-8">${buyUnit}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
         });
         
         tbody.innerHTML = html;
+        if(cardList) cardList.innerHTML = cardHtml;
         if(window.lucide) lucide.createIcons();
     },
 
