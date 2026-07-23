@@ -2,1148 +2,317 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Kalkulator HPP & Harga Jual</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg: #f0f4f8;
-            --surface: #ffffff;
-            --surface-subtle: #f8fafc;
-            --primary: #4f46e5;
-            --primary-hover: #4338ca;
-            --primary-subtle: #eef2ff;
-            --primary-border: #c7d2fe;
-            --success: #059669;
-            --success-subtle: #ecfdf5;
-            --success-border: #a7f3d0;
-            --danger: #dc2626;
-            --danger-subtle: #fef2f2;
-            --danger-border: #fecaca;
-            --warning: #d97706;
-            --warning-subtle: #fffbeb;
-            --text: #0f172a;
-            --text-secondary: #475569;
-            --text-muted: #94a3b8;
-            --border: #e2e8f0;
-            --border-strong: #cbd5e1;
-            --radius-xl: 20px;
-            --radius-lg: 14px;
-            --radius-md: 10px;
-            --radius-sm: 7px;
-            --shadow-sm: 0 1px 2px rgba(15,23,42,.06), 0 1px 3px rgba(15,23,42,.04);
-            --shadow-md: 0 4px 8px rgba(15,23,42,.07), 0 2px 4px rgba(15,23,42,.04);
-            --shadow-lg: 0 12px 24px rgba(15,23,42,.08), 0 4px 8px rgba(15,23,42,.04);
-            --shadow-primary: 0 4px 14px rgba(79,70,229,.25);
-        }
-
-        *, *::before, *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            -webkit-font-smoothing: antialiased;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.5;
-            min-height: 100vh;
-        }
-
-        /* ─── TOPBAR ─── */
-        .topbar {
-            position: fixed;
-            inset: 0 0 auto 0;
-            z-index: 100;
-            background: rgba(255,255,255,0.92);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-bottom: 1px solid var(--border);
-            height: 60px;
-            display: flex;
-            align-items: center;
-            padding: 0 20px;
-            gap: 12px;
-        }
-
-        .topbar-icon {
-            width: 34px;
-            height: 34px;
-            background: var(--primary);
-            border-radius: var(--radius-sm);
-            display: grid;
-            place-items: center;
-            flex-shrink: 0;
-        }
-
-        .topbar-icon svg { width: 18px; height: 18px; fill: white; }
-
-        .topbar-text h1 {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 14px;
-            font-weight: 800;
-            color: var(--text);
-            letter-spacing: -0.3px;
-            line-height: 1.2;
-        }
-
-        .topbar-text p {
-            font-size: 11px;
-            color: var(--text-muted);
-            font-weight: 500;
-        }
-
-        .topbar-live {
-            margin-left: auto;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            background: var(--success-subtle);
-            border: 1px solid var(--success-border);
-            border-radius: 20px;
-            padding: 4px 10px;
-            font-size: 11px;
-            font-weight: 600;
-            color: var(--success);
-            white-space: nowrap;
-        }
-
-        .live-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: var(--success);
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(0.8); }
-        }
-
-        /* ─── LAYOUT ─── */
-        .page-wrap {
-            padding-top: 72px;
-            padding-bottom: 32px;
-            max-width: 1100px;
-            margin: 0 auto;
-            padding-left: 16px;
-            padding-right: 16px;
-        }
-
-        .two-col {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        @media (min-width: 960px) {
-            .page-wrap { padding-left: 28px; padding-right: 28px; }
-            .two-col {
-                display: grid;
-                grid-template-columns: 1fr 380px;
-                gap: 24px;
-                align-items: start;
-            }
-            .sticky-panel {
-                position: sticky;
-                top: 80px;
-            }
-        }
-
-        /* ─── CARDS ─── */
-        .card {
-            background: var(--surface);
-            border-radius: var(--radius-xl);
-            border: 1px solid var(--border);
-            box-shadow: var(--shadow-sm);
-            overflow: hidden;
-        }
-
-        .card-head {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 18px 20px 0;
-            margin-bottom: 16px;
-        }
-
-        .card-head-left {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .card-icon {
-            width: 32px;
-            height: 32px;
-            border-radius: var(--radius-sm);
-            display: grid;
-            place-items: center;
-            flex-shrink: 0;
-        }
-
-        .card-icon svg { width: 16px; height: 16px; }
-        .card-icon.indigo { background: var(--primary-subtle); }
-        .card-icon.indigo svg { fill: var(--primary); }
-        .card-icon.amber { background: var(--warning-subtle); }
-        .card-icon.amber svg { fill: var(--warning); }
-        .card-icon.teal { background: var(--success-subtle); }
-        .card-icon.teal svg { fill: var(--success); }
-
-        .card-label {
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--text);
-            letter-spacing: -0.2px;
-        }
-
-        .card-sublabel {
-            font-size: 11px;
-            color: var(--text-muted);
-            font-weight: 500;
-            margin-top: 1px;
-        }
-
-        .card-body {
-            padding: 0 20px 20px;
-        }
-
-        /* ─── FORM ELEMENTS ─── */
-        .form-stack { display: flex; flex-direction: column; gap: 14px; }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-
-        .form-row.trio { grid-template-columns: 1fr 1fr 1fr; }
-
-        .field { display: flex; flex-direction: column; gap: 5px; }
-
-        .field-label {
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        /* ─── INPUT WRAPPER: prefix/suffix as attached labels ─── */
-        .input-wrap {
-            display: flex;
-            align-items: stretch;
-            border: 1.5px solid var(--border);
-            border-radius: var(--radius-md);
-            overflow: hidden;
-            background: var(--surface-subtle);
-            transition: border-color 0.15s, box-shadow 0.15s;
-        }
-
-        .input-wrap:focus-within {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(79,70,229,.12);
-            background: var(--surface);
-        }
-
-        .input-prefix, .input-suffix {
-            display: flex;
-            align-items: center;
-            padding: 0 10px;
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text-muted);
-            background: var(--border);
-            white-space: nowrap;
-            user-select: none;
-            flex-shrink: 0;
-        }
-
-        .input-wrap input[type="text"],
-        .input-wrap input[type="number"],
-        .input-wrap select {
-            border: none !important;
-            border-radius: 0 !important;
-            box-shadow: none !important;
-            background: transparent !important;
-            flex: 1;
-            min-width: 0;
-        }
-
-        .input-wrap:focus-within input,
-        .input-wrap:focus-within select {
-            background: transparent !important;
-        }
-
-        input[type="text"],
-        input[type="number"],
-        select {
-            width: 100%;
-            height: 44px;
-            background: var(--surface-subtle);
-            border: 1.5px solid var(--border);
-            border-radius: var(--radius-md);
-            padding: 0 12px;
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--text);
-            font-family: inherit;
-            outline: none;
-            transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
-            -webkit-appearance: none;
-        }
-
-        input[type="text"]:focus,
-        input[type="number"]:focus,
-        select:focus {
-            background: var(--surface);
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(79,70,229,.12);
-        }
-
-        .has-prefix { padding-left: 36px; }
-        .has-suffix { padding-right: 36px; }
-
-        input[type="number"]::-webkit-inner-spin-button,
-        input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
-
-        /* ─── INGREDIENT CARD ─── */
-        .item-list { display: flex; flex-direction: column; gap: 12px; }
-
-        .item-card {
-            background: var(--surface-subtle);
-            border: 1.5px solid var(--border);
-            border-radius: var(--radius-lg);
-            padding: 14px;
-            position: relative;
-        }
-
-        .item-card-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 10px;
-            margin-bottom: 12px;
-        }
-
-        @media (min-width: 540px) {
-            .item-card-grid { grid-template-columns: 2fr 1fr 1fr 1fr; }
-            .item-card-grid .field:first-child { grid-column: 1 / 2; }
-        }
-
-        .item-footer {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding-top: 10px;
-            border-top: 1px solid var(--border);
-            gap: 10px;
-        }
-
-        .item-subtotal {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .item-subtotal-label {
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.4px;
-        }
-
-        .item-subtotal-value {
-            font-size: 14px;
-            font-weight: 800;
-            color: var(--text);
-        }
-
-        /* ─── DIVIDER ─── */
-        .section-divider {
-            height: 1px;
-            background: var(--border);
-            margin: 4px 0 16px;
-        }
-
-        /* ─── BUTTONS ─── */
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            font-family: inherit;
-            font-weight: 700;
-            cursor: pointer;
-            border: none;
-            transition: all 0.15s;
-        }
-
-        .btn-add {
-            background: var(--primary-subtle);
-            color: var(--primary);
-            border: 1.5px solid var(--primary-border);
-            font-size: 12px;
-            height: 30px;
-            padding: 0 12px;
-            border-radius: 20px;
-        }
-
-        .btn-add:hover {
-            background: #e0e7ff;
-            border-color: #a5b4fc;
-        }
-
-        .btn-del {
-            background: var(--danger-subtle);
-            color: var(--danger);
-            border: 1px solid var(--danger-border);
-            font-size: 12px;
-            height: 30px;
-            padding: 0 12px;
-            border-radius: var(--radius-sm);
-            flex-shrink: 0;
-        }
-
-        .btn-del:hover { background: #fee2e2; }
-
-        .btn-cta {
-            background: var(--primary);
-            color: white;
-            font-size: 14px;
-            font-weight: 700;
-            height: 48px;
-            width: 100%;
-            border-radius: var(--radius-md);
-            box-shadow: var(--shadow-primary);
-            margin-top: 14px;
-        }
-
-        .btn-cta:hover { background: var(--primary-hover); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(79,70,229,.3); }
-        .btn-cta:active { transform: translateY(0); }
-
-        /* ─── SUMMARY PANEL ─── */
-        .summary-header {
-            background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
-            padding: 20px;
-            border-radius: var(--radius-xl) var(--radius-xl) 0 0;
-        }
-
-        .summary-header-label {
-            font-size: 11px;
-            font-weight: 700;
-            color: rgba(255,255,255,0.65);
-            text-transform: uppercase;
-            letter-spacing: 0.6px;
-            margin-bottom: 4px;
-        }
-
-        .summary-product-name {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 18px;
-            font-weight: 800;
-            color: white;
-            letter-spacing: -0.4px;
-            min-height: 24px;
-        }
-
-        .summary-body { padding: 16px 20px 20px; }
-
-        .metric-list { display: flex; flex-direction: column; gap: 10px; }
-
-        .metric-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 13px 14px;
-            border-radius: var(--radius-md);
-            background: var(--surface-subtle);
-            border: 1.5px solid var(--border);
-        }
-
-        .metric-item.highlight {
-            background: var(--success-subtle);
-            border-color: var(--success-border);
-        }
-
-        .metric-item.accent {
-            background: var(--primary-subtle);
-            border-color: var(--primary-border);
-        }
-
-        .metric-left {}
-
-        .metric-label {
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 0.4px;
-            margin-bottom: 2px;
-        }
-
-        .metric-item.highlight .metric-label { color: var(--success); }
-        .metric-item.accent .metric-label { color: var(--primary); }
-
-        .metric-value {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 17px;
-            font-weight: 800;
-            color: var(--text);
-            letter-spacing: -0.5px;
-        }
-
-        .metric-item.highlight .metric-value { color: var(--success); font-size: 20px; }
-        .metric-item.accent .metric-value { color: var(--primary); font-size: 18px; }
-
-        .metric-tag {
-            font-size: 10px;
-            font-weight: 700;
-            padding: 3px 8px;
-            border-radius: 20px;
-            white-space: nowrap;
-        }
-
-        .tag-neutral { background: var(--border); color: var(--text-secondary); }
-        .tag-success { background: var(--success-subtle); color: var(--success); border: 1px solid var(--success-border); }
-        .tag-primary { background: var(--primary-subtle); color: var(--primary); border: 1px solid var(--primary-border); }
-
-        /* Margin bar */
-        .margin-bar-wrap {
-            margin-top: 14px;
-            padding: 14px;
-            background: var(--surface-subtle);
-            border: 1.5px solid var(--border);
-            border-radius: var(--radius-md);
-        }
-
-        .margin-bar-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px;
-        }
-
-        .margin-bar-label {
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 0.4px;
-        }
-
-        .margin-bar-pct {
-            font-size: 13px;
-            font-weight: 800;
-            color: var(--primary);
-        }
-
-        .bar-track {
-            height: 6px;
-            background: var(--border);
-            border-radius: 99px;
-            overflow: hidden;
-        }
-
-        .bar-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #4f46e5, #818cf8);
-            border-radius: 99px;
-            transition: width 0.4s ease;
-            width: 0%;
-        }
-
-        /* ─── PRINT ─── */
-        @media print {
-            body { background: white; }
-            .topbar, .btn, .no-print { display: none !important; }
-            .page-wrap { padding-top: 0; }
-            .card { box-shadow: none; border: 1px solid #000; }
-            .two-col { display: block; }
-            .sticky-panel { position: static; margin-top: 24px; }
-        }
-
-        /* ─── EMPTY STATE ─── */
-        .empty-hint {
-            text-align: center;
-            padding: 20px;
-            color: var(--text-muted);
-            font-size: 13px;
-            font-weight: 500;
-            border: 1.5px dashed var(--border);
-            border-radius: var(--radius-md);
-        }
-
-        /* ─── MOBILE: stack all fields to single column ─── */
-        @media (max-width: 400px) {
-            .form-row { grid-template-columns: 1fr; }
-            .form-row.trio { grid-template-columns: 1fr 1fr; }
-        }
-    </style>
-</head>
-<body>
-
-<!-- ── SCREEN LOGIN OVERLAY ── -->
-<div id="loginOverlay" style="position:fixed; inset:0; z-index:9999; background:var(--bg); display:flex; align-items:center; justify-content:center; padding:20px;">
-    <div class="card" style="width:100%; max-width:400px; padding:30px; box-shadow:var(--shadow-lg);">
-        <div style="text-align:center; margin-bottom:24px;">
-            <div style="width:48px; height:48px; background:var(--primary); border-radius:var(--radius-md); display:grid; place-items:center; margin:0 auto 12px;">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M12 2c1.1 0 2 .9 2 2v2h-4V4c0-1.1.9-2 2-2zm6 4h-2V4c0-2.21-1.79-4-4-4S8 1.79 8 4v2H6c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-6 10c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></svg>
-            </div>
-            <h2 style="font-family:'Plus Jakarta Sans', sans-serif; font-size:20px; font-weight:800; color:var(--text); letter-spacing:-0.5px;">Akses Premium</h2>
-            <p style="font-size:13px; color:var(--text-secondary); margin-top:4px;">Masukkan data sesuai saat Anda membeli di Lynk.id</p>
-        </div>
-
-        <div class="form-stack">
-            <div class="field">
-                <label class="field-label">Nama Lengkap</label>
-                <input type="text" id="loginNama" placeholder="Contoh: Baim">
-            </div>
-            <div class="field">
-                <label class="field-label">Nomor WhatsApp</label>
-                <input type="text" id="loginWA" placeholder="Contoh: 08123456789">
-            </div>
-            <button class="btn btn-cta" id="btnLogin" onclick="prosesAuthGoogleSheets()" style="margin-top:10px;">Masuk Aplikasi</button>
-        </div>
-    </div>
-</div>
-
-
-<header class="topbar">
-    <div class="topbar-icon" aria-hidden="true">
-        <svg viewBox="0 0 24 24"><path d="M3 3h7v7H3zm11 0h7v7h-7zm0 11h7v7h-7zM3 21l4-7 4 7z"/></svg>
-    </div>
-    <div class="topbar-text">
-        <h1>Kalkulator HPP & Harga Jual</h1>
-        <p>Hitung biaya produksi secara real-time &nbsp;·&nbsp; <strong style="color:var(--primary)">by Warunk Arsi</strong></p>
-    </div>
-    <div class="topbar-live">
-        <span class="live-dot"></span>
-        Live
-    </div>
-</header>
-
-<!-- ── PAGE ── -->
-<main class="page-wrap">
-    <div class="two-col">
-
-        <!-- ═══ LEFT COLUMN ═══ -->
-        <div class="left-col">
-
-            <!-- CARD: KONFIGURASI -->
-            <div class="card" style="margin-bottom:16px;">
-                <div class="card-head">
-                    <div class="card-head-left">
-                        <div class="card-icon indigo" aria-hidden="true">
-                            <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zm1 14.5h-2v-2h2v2zm0-4h-2V7h2v5.5z"/></svg>
-                        </div>
-                        <div>
-                            <div class="card-label">Konfigurasi Dasar</div>
-                            <div class="card-sublabel">Nama produk, porsi & target margin</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="form-stack">
-                        <div class="field">
-                            <label class="field-label" for="pName">Nama Menu / Produk</label>
-                            <input type="text" id="pName" value="Kopi Susu Gula Aren" oninput="updateProductName(); calculateHpp();" placeholder="Contoh: Nasi Goreng Spesial">
-                        </div>
-                        <div class="form-row trio">
-                            <div class="field">
-                                <label class="field-label" for="pYield">Hasil Jadi</label>
-                                <div class="input-wrap">
-                                    <input type="number" id="pYield" value="1" min="1" oninput="calculateHpp()">
-                                    <span class="input-suffix">porsi</span>
-                                </div>
-                            </div>
-                            <div class="field">
-                                <label class="field-label" for="pMargin">Margin Target</label>
-                                <div class="input-wrap">
-                                    <input type="number" id="pMargin" value="50" min="0" max="99" oninput="calculateHpp()">
-                                    <span class="input-suffix">%</span>
-                                </div>
-                            </div>
-                            <div class="field">
-                                <label class="field-label" for="pTax">Pajak / PB1</label>
-                                <div class="input-wrap">
-                                    <input type="number" id="pTax" value="0" min="0" oninput="calculateHpp()">
-                                    <span class="input-suffix">%</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- CARD: BAHAN BAKU -->
-            <div class="card" style="margin-bottom:16px;">
-                <div class="card-head">
-                    <div class="card-head-left">
-                        <div class="card-icon amber" aria-hidden="true">
-                            <svg viewBox="0 0 24 24"><path d="M11 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6v18zm2-11h6v2h-6v-2zm0 4h6v2h-6v-2zm0-8h6v2h-6V6z"/></svg>
-                        </div>
-                        <div>
-                            <div class="card-label">Bahan Baku</div>
-                            <div class="card-sublabel">Isi sesuai resep yang digunakan</div>
-                        </div>
-                    </div>
-                    <button class="btn btn-add" onclick="addIngredient()">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M19 13H13v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
-                        Tambah Bahan
-                    </button>
-                </div>
-                <div class="card-body">
-                    <div id="ingredientList" class="item-list">
-                        <!-- default item -->
-                        <div class="item-card ingredient-node">
-                            <div class="item-card-grid">
-                                <div class="field">
-                                    <label class="field-label">Nama Bahan</label>
-                                    <input type="text" value="Espresso Blend Beans" placeholder="Nama bahan baku">
-                                </div>
-                                <div class="field">
-                                    <label class="field-label">Harga Toko (Rp)</label>
-                                    <div class="input-wrap">
-                                        <span class="input-prefix">Rp</span>
-                                        <input type="number" class="ing-price" value="150000" min="0" oninput="calculateHpp()">
-                                    </div>
-                                </div>
-                                <div class="field">
-                                    <label class="field-label">Isi Kemasan</label>
-                                    <div class="input-wrap">
-                                        <input type="number" class="ing-size" value="1000" min="0.001" oninput="calculateHpp()">
-                                        <span class="input-suffix unit-badge">gr</span>
-                                    </div>
-                                </div>
-                                <div class="field">
-                                    <label class="field-label">Satuan</label>
-                                    <select class="ing-unit" onchange="syncUnit(this)">
-                                        <option value="gr">gr</option>
-                                        <option value="ml">ml</option>
-                                        <option value="pcs">pcs</option>
-                                    </select>
-                                </div>
-                                <div class="field">
-                                    <label class="field-label">Takaran Pakai (<span class="unit-label">gr</span>)</label>
-                                    <input type="number" class="ing-used" value="18" min="0" oninput="calculateHpp()">
-                                </div>
-                            </div>
-                            <div class="item-footer">
-                                <div class="item-subtotal">
-                                    <span class="item-subtotal-label">Subtotal</span>
-                                    <span class="item-subtotal-value ing-item-cost">Rp 0</span>
-                                </div>
-                                <button class="btn btn-del" onclick="removeNode(this)">Hapus</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- CARD: KEMASAN & OVERHEAD -->
-            <div class="card">
-                <div class="card-head">
-                    <div class="card-head-left">
-                        <div class="card-icon teal" aria-hidden="true">
-                            <svg viewBox="0 0 24 24"><path d="M20 7h-1V5a3 3 0 0 0-3-3H8a3 3 0 0 0-3 3v2H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2zM7 5a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v2H7V5zm13 14H4V9h16v10z"/></svg>
-                        </div>
-                        <div>
-                            <div class="card-label">Kemasan & Operasional</div>
-                            <div class="card-sublabel">Packaging, gas, listrik, dsb.</div>
-                        </div>
-                    </div>
-                    <button class="btn btn-add" onclick="addOverhead()">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M19 13H13v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
-                        Tambah
-                    </button>
-                </div>
-                <div class="card-body">
-                    <div id="overheadList" class="item-list">
-                        <div class="item-card overhead-node">
-                            <div class="form-stack">
-                                <div class="field">
-                                    <label class="field-label">Deskripsi Biaya</label>
-                                    <input type="text" value="Cup Plastik + Stiker Sablon" placeholder="Nama kemasan / biaya operasional">
-                                </div>
-                                <div class="field">
-                                    <label class="field-label">Alokasi Biaya</label>
-                                    <div class="input-wrap">
-                                        <span class="input-prefix">Rp</span>
-                                        <input type="number" class="ovr-cost" value="1500" min="0" oninput="calculateHpp()">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item-footer" style="margin-top:12px;">
-                                <span></span>
-                                <button class="btn btn-del" onclick="removeNode(this)">Hapus</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-        <!-- ═══ RIGHT COLUMN: SUMMARY PANEL ═══ -->
-        <div class="sticky-panel no-print-sticky">
-            <div class="card" style="overflow:hidden;">
-                <!-- Header -->
-                <div class="summary-header">
-                    <div class="summary-header-label">Ringkasan Kalkulasi</div>
-                    <div class="summary-product-name" id="displayProductName">Kopi Susu Gula Aren</div>
-                </div>
-
-                <!-- Metrics -->
-                <div class="summary-body">
-                    <div class="metric-list">
-
-                        <div class="metric-item">
-                            <div class="metric-left">
-                                <div class="metric-label">Total Biaya Resep</div>
-                                <div class="metric-value" id="outTotalCost">Rp 0</div>
-                            </div>
-                            <span class="metric-tag tag-neutral">Resep</span>
-                        </div>
-
-                        <div class="metric-item">
-                            <div class="metric-left">
-                                <div class="metric-label">HPP Per Porsi</div>
-                                <div class="metric-value" id="outHppPerUnit">Rp 0</div>
-                            </div>
-                            <span class="metric-tag tag-neutral">Modal</span>
-                        </div>
-
-                        <div class="metric-item highlight">
-                            <div class="metric-left">
-                                <div class="metric-label">Rekomendasi Harga Jual</div>
-                                <div class="metric-value" id="outSuggested">Rp 0</div>
-                            </div>
-                            <span class="metric-tag tag-success">✓ Rekomendasi</span>
-                        </div>
-
-                        <div class="metric-item accent">
-                            <div class="metric-left">
-                                <div class="metric-label">Harga Konsumen (+Pajak)</div>
-                                <div class="metric-value" id="outFinal">Rp 0</div>
-                            </div>
-                            <span class="metric-tag tag-primary">Final</span>
-                        </div>
-
-                    </div>
-
-                    <!-- Margin bar -->
-                    <div class="margin-bar-wrap">
-                        <div class="margin-bar-header">
-                            <span class="margin-bar-label">Margin Profit Aktual</span>
-                            <span class="margin-bar-pct" id="marginPct">50%</span>
-                        </div>
-                        <div class="bar-track">
-                            <div class="bar-fill" id="marginBar"></div>
-                        </div>
-                    </div>
-
-                    <button class="btn btn-cta" onclick="window.print()">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 8H5a3 3 0 0 0-3 3v4h4v4h12v-4h4v-4a3 3 0 0 0-3-3zm-3 11H8v-5h8v5zm1-11a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm1-5H6v3h12V3z"/></svg>
-                        Cetak Laporan
-                    </button>
-                </div>
-            </div>
-        </div>
-
-    </div>
-</main>
-
-<script>
-    // ══════════════════════════════════════════════════
-    // KONFIGURASI API GOOGLE SHEETS
-    // ══════════════════════════════════════════════════
-    const SPREADSHEET_ID = "184VqIsAyH7I-AmXhc8-UKhGGOhPt1-D35vIOAd66uE4";
-    const SHEET_NAME = "Sheet1"; // Sesuaikan dengan nama sheet di spreadsheet Anda
-
-    // ── Helper: parse gviz response dengan aman (offset bisa bervariasi) ──
-    function parseGvizResponse(rawText) {
-        // Google mengembalikan: google.visualization.Query.setResponse({...});
-        // Cari kurung kurawal pertama dan terakhir
-        const start = rawText.indexOf('{');
-        const end   = rawText.lastIndexOf('}');
-        if (start === -1 || end === -1) throw new Error("Format respons tidak dikenali.");
-        return JSON.parse(rawText.substring(start, end + 1));
-    }
-
-    // ── Helper: normalisasi nomor WA ──
-    // Google Sheets sering menyimpan angka tanpa leading zero (misal: 85175150408 bukan 085175150408)
-    function normWA(wa) {
-        wa = wa.toString().trim().replace(/[^0-9]/g, ""); // hapus semua non-digit
-        // Hilangkan awalan 62 atau 0, lalu simpan sebagai format 62xxx
-        if (wa.startsWith("62"))     return wa;           // sudah 62xxx → biarkan
-        if (wa.startsWith("0"))      return "62" + wa.substring(1); // 08xxx → 628xxx
-        if (wa.length >= 9)          return "62" + wa;   // 8xxx (tanpa 0/62) → 628xxx
-        return wa;
-    }
-
-    // Fungsi utama untuk memeriksa login ke Google Sheets secara real-time
-    async function prosesAuthGoogleSheets() {
-        const inputNama = document.getElementById("loginNama").value.trim().toLowerCase();
-        const inputWARaw = document.getElementById("loginWA").value.trim();
-        const btnLogin  = document.getElementById("btnLogin");
-
-        // ── Validasi input kosong ──
-        if (!inputNama) {
-            alert("Harap isi Nama Lengkap Anda!");
-            document.getElementById("loginNama").focus();
-            return;
-        }
-        if (!inputWARaw) {
-            alert("Harap isi Nomor WhatsApp Anda!");
-            document.getElementById("loginWA").focus();
-            return;
-        }
-
-        const inputWA = normWA(inputWARaw);
-
-        // ── Validasi format WA minimal 9 digit ──
-        if (inputWA.length < 9) {
-            alert("Nomor WhatsApp tidak valid. Contoh: 085175150408");
-            document.getElementById("loginWA").focus();
-            return;
-        }
-
-        // Ubah status tombol saat memproses
-        btnLogin.disabled    = true;
-        btnLogin.textContent = "Memvalidasi...";
-
-        try {
-            // Gunakan parameter tqx=out:json&headers=1 agar gviz menyertakan header baris pertama
-            const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}&headers=1`;
-
-            const response = await fetch(url, { cache: "no-store" });
-
-            // Jika Google mengembalikan redirect/login page (spreadsheet private)
-            if (!response.ok) {
-                throw new Error(`HTTP ${response.status} – pastikan spreadsheet sudah dibagikan ke publik (Anyone with the link → Viewer).`);
-            }
-
-            const rawText = await response.text();
-
-            // Deteksi halaman login Google (spreadsheet private)
-            if (rawText.includes("accounts.google.com") || rawText.includes("signin")) {
-                throw new Error("PRIVATE_SHEET");
-            }
-
-            const dataJson = parseGvizResponse(rawText);
-
-            if (!dataJson.table || !dataJson.table.rows) {
-                throw new Error("Tabel kosong atau nama sheet salah. Cek SHEET_NAME di kode.");
-            }
-
-            const rows = dataJson.table.rows;
-            let aksesDiterima = false;
-
-            // Looping untuk memeriksa setiap baris di Google Sheets
-            for (let row of rows) {
-                if (!row.c || row.c.length < 2) continue;
-                // Kolom A (index 0) = Nama, Kolom B (index 1) = No WA
-                const dbNama = row.c[0] && row.c[0].v != null ? row.c[0].v.toString().toLowerCase().trim() : "";
-                const dbWA   = row.c[1] && row.c[1].v != null ? normWA(row.c[1].v.toString()) : "";
-
-                if (dbNama === inputNama && dbWA === inputWA) {
-                    aksesDiterima = true;
-                    break;
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warunk Arsi - ERP Enterprise</title>
+    <!-- Tailwind via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        wa: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            200: '#bbf7d0',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            800: '#166534', // Dark Green (Primary)
+                            900: '#14532d'
+                        }
+                    }
                 }
             }
-
-            if (aksesDiterima) {
-                localStorage.setItem("hpp_premium_auth", "true");
-                document.getElementById("loginOverlay").style.display = "none";
-            } else {
-                alert("❌ Akses Ditolak!\n\nNama atau Nomor WA tidak terdaftar.\nPastikan penulisan sama persis seperti saat membeli di Lynk.id.");
-            }
-
-        } catch (error) {
-            console.error("Error Auth:", error);
-
-            if (error.message === "PRIVATE_SHEET") {
-                alert(
-                    "⚠️ Spreadsheet belum dibuka aksesnya!\n\n" +
-                    "Langkah perbaikan:\n" +
-                    "1. Buka Google Spreadsheet Anda\n" +
-                    "2. Klik tombol 'Share' (pojok kanan atas)\n" +
-                    "3. Ubah akses menjadi:\n" +
-                    "   'Anyone with the link → Viewer'\n" +
-                    "4. Klik 'Done', lalu coba login lagi."
-                );
-            } else if (error.message.includes("Failed to fetch") || error.name === "TypeError") {
-                alert(
-                    "⚠️ Gagal terhubung ke Google Sheets!\n\n" +
-                    "Kemungkinan penyebab:\n" +
-                    "• Koneksi internet terputus\n" +
-                    "• Spreadsheet belum dibagikan ke publik\n\n" +
-                    "Pastikan spreadsheet di-set:\n" +
-                    "'Anyone with the link → Viewer'"
-                );
-            } else {
-                alert("⚠️ Error: " + error.message + "\n\nHubungi admin jika masalah berlanjut.");
-            }
-        } finally {
-            btnLogin.disabled    = false;
-            btnLogin.textContent = "Masuk Aplikasi";
         }
-    }
-
-    // Fitur Auto-Login: Jika sebelumnya sudah pernah login sukses, tidak perlu login lagi
-    window.addEventListener('DOMContentLoaded', () => {
-        if (localStorage.getItem("hpp_premium_auth") === "true") {
-            document.getElementById("loginOverlay").style.display = "none";
-        }
-        calculateHpp();
-        updateProductName();
-    });
-
-    // ══════════════════════════════════════════════════
-    // CALCULATOR FUNCTIONS
-    // ══════════════════════════════════════════════════
-    function formatRp(val) {
-        return "Rp\u00a0" + Math.round(val).toLocaleString('id-ID');
-    }
-
-    function syncUnit(sel) {
-        const card = sel.closest('.ingredient-node');
-        const unit = sel.value;
-        card.querySelectorAll('.unit-badge, .unit-label').forEach(el => el.textContent = unit);
-        calculateHpp();
-    }
-
-    function removeNode(btn) {
-        btn.closest('.item-card').remove();
-        calculateHpp();
-    }
-
-    function addIngredient() {
-        const list = document.getElementById('ingredientList');
-        const div = document.createElement('div');
-        div.className = 'item-card ingredient-node';
-        div.innerHTML = `
-            <div class="item-card-grid">
-                <div class="field">
-                    <label class="field-label">Nama Bahan</label>
-                    <input type="text" placeholder="Nama bahan baku">
-                </div>
-                <div class="field">
-                    <label class="field-label">Harga Toko (Rp)</label>
-                    <div class="input-wrap">
-                        <span class="input-prefix">Rp</span>
-                        <input type="number" class="ing-price" value="0" min="0" oninput="calculateHpp()">
-                    </div>
-                </div>
-                <div class="field">
-                    <label class="field-label">Isi Kemasan</label>
-                    <div class="input-wrap">
-                        <input type="number" class="ing-size" value="1" min="0.001" oninput="calculateHpp()">
-                        <span class="input-suffix unit-badge">gr</span>
-                    </div>
-                </div>
-                <div class="field">
-                    <label class="field-label">Satuan</label>
-                    <select class="ing-unit" onchange="syncUnit(this)">
-                        <option value="gr">gr</option>
-                        <option value="ml">ml</option>
-                        <option value="pcs">pcs</option>
-                    </select>
-                </div>
-                <div class="field">
-                    <label class="field-label">Takaran Pakai (<span class="unit-label">gr</span>)</label>
-                    <input type="number" class="ing-used" value="0" min="0" oninput="calculateHpp()">
-                </div>
-            </div>
-            <div class="item-footer">
-                <div class="item-subtotal">
-                    <span class="item-subtotal-label">Subtotal</span>
-                    <span class="item-subtotal-value ing-item-cost">Rp 0</span>
-                </div>
-                <button class="btn btn-del" onclick="removeNode(this)">Hapus</button>
-            </div>
-        `;
-        list.appendChild(div);
-        div.querySelector('input[type="text"]').focus();
-        calculateHpp();
-    }
-
-    function addOverhead() {
-        const list = document.getElementById('overheadList');
-        const div = document.createElement('div');
-        div.className = 'item-card overhead-node';
-        div.innerHTML = `
-            <div class="form-stack">
-                <div class="field">
-                    <label class="field-label">Deskripsi Biaya</label>
-                    <input type="text" placeholder="Kotak box, kantong, gas, listrik...">
-                </div>
-                <div class="field">
-                    <label class="field-label">Alokasi Biaya</label>
-                    <div class="input-wrap">
-                        <span class="input-prefix">Rp</span>
-                        <input type="number" class="ovr-cost" value="0" min="0" oninput="calculateHpp()">
-                    </div>
-                </div>
-            </div>
-            <div class="item-footer" style="margin-top:12px;">
-                <span></span>
-                <button class="btn btn-del" onclick="removeNode(this)">Hapus</button>
-            </div>
-        `;
-        list.appendChild(div);
-        div.querySelector('input[type="text"]').focus();
-        calculateHpp();
-    }
-
-    function updateProductName() {
-        const name = document.getElementById('pName').value.trim() || 'Nama Produk';
-        document.getElementById('displayProductName').textContent = name;
-    }
-
-    function calculateHpp() {
-        let totalIng = 0, totalOvr = 0;
-
-        document.querySelectorAll('.ingredient-node').forEach(node => {
-            const price = parseFloat(node.querySelector('.ing-price').value) || 0;
-            const size  = parseFloat(node.querySelector('.ing-size').value) || 1;
-            const used  = parseFloat(node.querySelector('.ing-used').value) || 0;
-            const cost  = (price / size) * used;
-            totalIng   += cost;
-            node.querySelector('.ing-item-cost').textContent = formatRp(cost);
+    </script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        .hover-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .hover-card:hover { transform: translateY(-4px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        input[type="number"]::-webkit-inner-spin-button, 
+        input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+    
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fadeIn { animation: fadeIn 0.4s ease-out forwards; }
+        
+        body.dark-theme { filter: invert(0.92) hue-rotate(180deg); background-color: #000; }
+        body.dark-theme img { filter: invert(1) hue-rotate(180deg); }
+</style>
+    
+    <script>
+        window.addEventListener('error', function(e) {
+            const msg = e.message || '';
+            const isLucide = msg.includes('lucide');
+            if (isLucide) return; // ignore expected lucide errors
+            
+            document.getElementById('app-content').innerHTML = '<div style="padding:20px; color:red; font-family:monospace;"><b>Global Error:</b><br>' + msg + '<br>' + e.filename + ':' + e.lineno + '</div>';
         });
-
-        document.querySelectorAll('.overhead-node').forEach(node => {
-            totalOvr += parseFloat(node.querySelector('.ovr-cost').value) || 0;
+        window.addEventListener('unhandledrejection', function(e) {
+            document.getElementById('app-content').innerHTML = '<div style="padding:20px; color:red; font-family:monospace;"><b>Unhandled Promise:</b><br>' + (e.reason && e.reason.stack ? e.reason.stack : e.reason) + '</div>';
         });
+    </script>
+    <script type="module">
+        import { Bootstrap } from './core/bootstrap.js';
+        import { HppController } from './features/hpp/ui/hppController.js';
+        import { ResepController } from './features/resep/resepController.js';
+        import { DashboardController } from './features/dashboard/dashboardController.js';
+        import { InventoriController } from './features/inventori/inventoriController.js';
+        import { LaporanController } from './features/laporan/laporanController.js';
+        import { PengaturanController } from './features/pengaturan/pengaturanController.js';
+        import { Router } from './core/router.js';
+        import { PremiumService } from './features/premium/premiumService.js';
+        window.PremiumService = PremiumService;
+        
+        // Wait for DOM
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                await Bootstrap.init();
+                
+                // Init Controllers
+                window.appController = HppController;
+                window.resepController = ResepController;
+                window.dashboardController = DashboardController;
+                window.inventoriController = InventoriController;
+                window.laporanController = LaporanController;
+                window.pengaturanController = PengaturanController;
+                
+                // Init Router
+                const appRouter = new Router();
+                appRouter.init();
+            } catch(e) {
+                document.getElementById('app-content').innerHTML = '<div style="padding:20px; color:red; font-family:monospace;"><b>Init Error:</b><br>' + e.stack + '</div>';
+            }
+        });
+    </script>
+</head>
+<body class="text-slate-800 flex h-screen overflow-hidden">
+    <!-- Sidebar -->
+    <aside id="sidebarMenu" class="w-64 bg-white border-r border-slate-200 flex-col flex z-50 shadow-[4px_0_24px_rgba(0,0,0,0.02)] fixed inset-y-0 left-0 md:relative h-full transition-transform transform -translate-x-full md:translate-x-0">
+        <div class="p-6 flex items-center justify-between gap-3">
+            <div class="flex items-center gap-3">
+                <div class="bg-wa-800 text-white p-2.5 rounded-xl shadow-md">
+                    <i data-lucide="calculator" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <h2 class="font-extrabold text-wa-900 leading-tight text-lg tracking-tight">Warunk Arsi</h2>
+                    <p class="text-[11px] font-semibold text-slate-400 uppercase tracking-widest">ERP System</p>
+                </div>
+            </div>
+            <button id="btnCloseMobileMenu" class="md:hidden text-slate-500 hover:text-wa-800 p-1">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+        </div>
+        
+        <div class="px-6 pb-3 pt-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Menu Utama</div>
+        <nav class="flex-1 px-4 space-y-1.5 overflow-y-auto">
+            <a href="#/dashboard" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-wa-800 transition-all group" data-route="/dashboard">
+                <i data-lucide="layout-dashboard" class="w-5 h-5 text-slate-400 group-hover:text-wa-800 transition-colors"></i> <span class="font-medium text-sm">Dashboard</span>
+            </a>
+            <a href="#/resep" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-wa-800 transition-all group" data-route="/resep">
+                <i data-lucide="book-open" class="w-5 h-5 text-slate-400 group-hover:text-wa-800 transition-colors"></i> <span class="font-medium text-sm">Resep & Bahan</span>
+            </a>
+            <a href="#/hpp" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-wa-800 transition-all group" data-route="/hpp">
+                <i data-lucide="calculator" class="w-5 h-5 text-slate-400 group-hover:text-wa-800 transition-colors"></i> <span class="font-medium text-sm">Perhitungan HPP</span>
+            </a>
+            <a href="#/inventori" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-wa-800 transition-all group" data-route="/inventori">
+                <i data-lucide="package" class="w-5 h-5 text-slate-400 group-hover:text-wa-800 transition-colors"></i> <span class="font-medium text-sm">Inventori Produk</span>
+            </a>
+            <a href="#/laporan" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-wa-800 transition-all group" data-route="/laporan">
+                <i data-lucide="pie-chart" class="w-5 h-5 text-slate-400 group-hover:text-wa-800 transition-colors"></i> <span class="font-medium text-sm">Laporan Analisis</span>
+            </a>
+            <a href="#/pengaturan" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-wa-800 transition-all group" data-route="/pengaturan">
+                <i data-lucide="settings" class="w-5 h-5 text-slate-400 group-hover:text-wa-800 transition-colors"></i> <span class="font-medium text-sm">Pengaturan</span>
+            </a>
+        </nav>
+        
+        <div class="p-5 m-5 bg-gradient-to-br from-wa-800 to-wa-900 text-white rounded-2xl shadow-xl relative overflow-hidden group hover:shadow-2xl transition-all cursor-pointer">
+            <div class="absolute -right-4 -bottom-4 opacity-10 group-hover:scale-110 transition-transform duration-500">
+                <i data-lucide="help-circle" class="w-32 h-32"></i>
+            </div>
+            <div class="relative z-10">
+                <div class="bg-white/20 w-8 h-8 rounded-full flex items-center justify-center mb-3">
+                    <i data-lucide="headset" class="w-4 h-4 text-white"></i>
+                </div>
+                <h4 class="font-bold text-sm mb-1">Butuh Bantuan?</h4>
+                <p class="text-xs text-wa-100 mb-4 opacity-90 leading-relaxed">Pelajari cara penggunaan atau hubungi support kami.</p>
+                <button id="btnOpenBantuan" class="bg-white text-wa-900 w-full py-2.5 rounded-xl text-xs font-bold hover:bg-wa-50 transition-colors shadow-sm">Panduan Lengkap</button>
+            </div>
+        </div>
+    </aside>
 
-        const gross   = totalIng + totalOvr;
-        const yieldV  = parseFloat(document.getElementById('pYield').value) || 1;
-        const margin  = parseFloat(document.getElementById('pMargin').value) || 0;
-        const tax     = parseFloat(document.getElementById('pTax').value) || 0;
+    <!-- Mobile Sidebar Backdrop -->
+    <div id="sidebarBackdrop" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-40 hidden md:hidden"></div>
 
-        const hpp = gross / yieldV;
-        const sell = margin < 100 ? hpp / (1 - margin / 100) : hpp * (1 + margin / 100);
-        const final = sell * (1 + tax / 100);
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col h-screen overflow-hidden bg-slate-50/50">
+        <!-- Top Navbar -->
+        <header class="bg-white border-b border-slate-200 h-20 flex items-center justify-between px-4 md:px-8 shrink-0 z-10">
+            <div class="flex items-center gap-4">
+                <button id="btnMobileMenu" class="md:hidden text-slate-500 hover:text-wa-800">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+                <div>
+                    <h1 class="text-xl font-extrabold text-slate-800 hidden md:block tracking-tight">Hitung HPP & Rekomendasi Harga</h1>
+                    <h1 class="text-lg font-extrabold text-slate-800 md:hidden tracking-tight">Warunk Arsi</h1>
+                    <p class="text-xs text-slate-500 font-medium mt-0.5 hidden md:block">Hitung biaya produksi secara real-time untuk berbagai platform</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <button id="btnDarkMode" class="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-50 hover:text-wa-800 transition-colors" title="Toggle Dark Mode">
+                    <i data-lucide="sun" class="w-5 h-5"></i>
+                </button>
+                <div class="w-px h-8 bg-slate-200 mx-1"></div>
+                <!-- Premium badge (hidden default, shown when premium) -->
+                <div id="premiumBadge" class="hidden items-center gap-1 md:gap-1.5 px-2 md:px-3 py-1.5 bg-amber-400 text-amber-900 rounded-full text-xs font-extrabold shadow-sm">
+                    <i data-lucide="crown" class="w-3.5 h-3.5"></i> <span class="hidden md:inline">PREMIUM</span>
+                </div>
+                <!-- CSV button (locked for free users) -->
+                <button id="btnExportCsv" class="premium-btn hidden md:flex items-center gap-2 px-4 py-2.5 border border-slate-300 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50 transition-colors bg-white shadow-sm" title="Download CSV">
+                    <i data-lucide="file-spreadsheet" class="w-4 h-4 text-wa-600"></i> <span>CSV</span>
+                    <i id="csvLockIcon" data-lucide="lock" class="w-3.5 h-3.5 text-amber-500"></i>
+                </button>
+                <!-- JSON button (locked for free users) -->
+                <button id="btnExportJson" class="premium-btn hidden md:flex items-center gap-2 px-4 py-2.5 border border-slate-300 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50 transition-colors bg-white shadow-sm" title="Download JSON">
+                    <i data-lucide="file-json" class="w-4 h-4 text-slate-600"></i> <span>JSON</span>
+                    <i id="jsonLockIcon" data-lucide="lock" class="w-3.5 h-3.5 text-amber-500"></i>
+                </button>
+                <!-- Save Recipe button (locked for free users) -->
+                <button id="btnSaveRecipeTop" class="premium-btn flex items-center gap-1.5 md:gap-2 px-3 md:px-5 py-2 md:py-2.5 bg-wa-800 text-white rounded-xl text-sm font-bold hover:bg-wa-900 transition-colors shadow-md ml-0 md:ml-2 hover:shadow-lg">
+                    <i data-lucide="save" class="w-4 h-4"></i> <span class="hidden md:inline">Simpan Resep</span>
+                    <i id="saveLockIcon" data-lucide="lock" class="w-3.5 h-3.5 text-amber-300"></i>
+                </button>
+            </div>
+        </header>
 
-        document.getElementById('outTotalCost').textContent  = formatRp(gross);
-        document.getElementById('outHppPerUnit').textContent = formatRp(hpp);
-        document.getElementById('outSuggested').textContent  = formatRp(sell);
-        document.getElementById('outFinal').textContent      = formatRp(final);
+        <!-- Scrollable Content -->
+        <div class="flex-1 overflow-y-auto p-4 md:p-8">
+            <div id="app-content" class="w-full h-full relative"></div>
+        </div>
+    </main>
+    <!-- =========================================== -->
+    <!-- MODAL PREMIUM UPGRADE                       -->
+    <!-- =========================================== -->
+    <div id="modalPremium" class="fixed inset-0 z-[60] flex items-center justify-center hidden">
+        <div id="modalPremiumBackdrop" class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm cursor-pointer"></div>
+        <div class="relative w-full max-w-md mx-4 animate-fadeIn">
+            <!-- Glow effect -->
+            <div class="absolute -inset-1 bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500 rounded-3xl blur-lg opacity-60"></div>
+            <div class="relative bg-white rounded-2xl shadow-2xl overflow-hidden">
+                <!-- Header -->
+                <div class="bg-gradient-to-br from-amber-400 to-yellow-500 p-6 text-center relative overflow-hidden">
+                    <div class="absolute -right-8 -top-8 w-32 h-32 bg-white/20 rounded-full"></div>
+                    <div class="absolute -left-6 -bottom-6 w-24 h-24 bg-white/10 rounded-full"></div>
+                    <div class="relative z-10">
+                        <div class="w-16 h-16 bg-white/30 rounded-2xl flex items-center justify-center mx-auto mb-3 shadow-lg">
+                            <i data-lucide="crown" class="w-8 h-8 text-amber-900"></i>
+                        </div>
+                        <h2 class="text-2xl font-extrabold text-amber-900 mb-1">Warunk Arsi Premium</h2>
+                        <p class="text-amber-800 text-sm font-medium">Buka semua fitur eksklusif untuk bisnis F&B Anda</p>
+                    </div>
+                </div>
 
-        // Margin bar
-        const pct = Math.min(margin, 100);
-        document.getElementById('marginPct').textContent = margin.toFixed(0) + '%';
-        document.getElementById('marginBar').style.width = pct + '%';
-    }
+                <!-- Benefits List -->
+                <div class="p-6">
+                    <ul class="space-y-3 mb-6">
+                        <li class="flex items-center gap-3">
+                            <div class="w-8 h-8 bg-amber-50 rounded-lg flex items-center justify-center shrink-0">
+                                <i data-lucide="store" class="w-4 h-4 text-amber-600"></i>
+                            </div>
+                            <div>
+                                <p class="font-bold text-slate-800 text-sm">Harga Jual Otomatis per Platform</p>
+                                <p class="text-xs text-slate-500">GoFood, GrabFood, ShopeeFood — dengan potongan komisi real</p>
+                            </div>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <div class="w-8 h-8 bg-amber-50 rounded-lg flex items-center justify-center shrink-0">
+                                <i data-lucide="file-spreadsheet" class="w-4 h-4 text-amber-600"></i>
+                            </div>
+                            <div>
+                                <p class="font-bold text-slate-800 text-sm">Ekspor Laporan CSV & JSON</p>
+                                <p class="text-xs text-slate-500">Download data HPP kapan saja untuk keperluan pembukuan</p>
+                            </div>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <div class="w-8 h-8 bg-amber-50 rounded-lg flex items-center justify-center shrink-0">
+                                <i data-lucide="save" class="w-4 h-4 text-amber-600"></i>
+                            </div>
+                            <div>
+                                <p class="font-bold text-slate-800 text-sm">Simpan & Kelola Resep</p>
+                                <p class="text-xs text-slate-500">Simpan resep tak terbatas, akses kapan saja</p>
+                            </div>
+                        </li>
+                    </ul>
 
-</script>
+                    <!-- Code Input -->
+                    <div class="bg-slate-50 rounded-xl p-4 border border-slate-200">
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Masukkan Kode Akses Premium</label>
+                        <div class="flex gap-2">
+                            <input type="text" id="inpPremiumCode" placeholder="Contoh: WARUNK-PREMIUM-2025" class="flex-1 px-3 py-2.5 border border-slate-300 rounded-lg text-sm font-mono font-bold tracking-wider focus:outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-100 transition-all uppercase" maxlength="30">
+                            <button id="btnActivatePremium" class="px-4 py-2.5 bg-amber-400 hover:bg-amber-500 text-amber-900 font-extrabold rounded-lg text-sm transition-colors shadow-sm flex items-center gap-1.5">
+                                <i data-lucide="unlock" class="w-4 h-4"></i> Aktifkan
+                            </button>
+                        </div>
+                        <p id="premiumCodeFeedback" class="text-xs font-medium mt-2 hidden"></p>
+                    </div>
+
+                    <!-- Footer actions -->
+                    <div class="flex items-center justify-between mt-4">
+                        <a href="https://hpppremium.warunkarsi.com/#pricing" target="_blank" class="text-xs text-amber-600 font-bold hover:text-amber-800 transition-colors flex items-center gap-1">
+                            <i data-lucide="external-link" class="w-3 h-3"></i> Beli Kode Akses
+                        </a>
+                        <button id="btnClosePremiumModal" class="text-xs text-slate-400 hover:text-slate-600 font-medium transition-colors">Nanti saja</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Bantuan -->
+    <div id="modalBantuan" class="fixed inset-0 z-50 flex items-center justify-center hidden">
+        <div id="modalBantuanBackdrop" class="absolute inset-0 bg-slate-900/50 backdrop-blur-sm cursor-pointer"></div>
+        <div class="relative bg-white rounded-2xl shadow-2xl w-full max-w-2xl mx-4 overflow-hidden flex flex-col max-h-[85vh] animate-fadeIn">
+            <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-wa-800 text-white">
+                <h3 class="font-extrabold flex items-center gap-2 text-lg">
+                    <i data-lucide="help-circle" class="w-5 h-5"></i> Panduan Lengkap Warunk Arsi ERP
+                </h3>
+                <button id="btnCloseModalBantuan" class="text-white hover:text-wa-200 p-2 rounded-xl transition-colors">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <div class="flex-1 overflow-y-auto p-6 space-y-6 bg-slate-50">
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+                    <h4 class="font-bold text-wa-800 mb-2 flex items-center gap-2"><i data-lucide="book-open" class="w-4 h-4"></i> 1. Menu Resep & Bahan</h4>
+                    <p class="text-sm text-slate-600 leading-relaxed">Menu ini adalah Master Data. Anda wajib memasukkan semua daftar bahan baku yang Anda beli beserta harga belinya di sini terlebih dahulu. Data ini akan menjadi acuan saat Anda menghitung HPP.</p>
+                </div>
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+                    <h4 class="font-bold text-wa-800 mb-2 flex items-center gap-2"><i data-lucide="calculator" class="w-4 h-4"></i> 2. Menu Perhitungan HPP</h4>
+                    <p class="text-sm text-slate-600 leading-relaxed">Pilih resep yang ingin Anda kalkulasi. Tambahkan bahan baku dan atur porsi (yield). Sistem akan merekomendasikan harga jual untuk tiap platform ojek online (Gofood, Grabfood, dll) agar margin profit Anda tetap aman.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Toast Notification -->
+    <div id="toastNotification" class="fixed top-24 right-8 bg-wa-800 text-white px-6 py-4 rounded-xl shadow-xl flex items-center gap-3 transform transition-all duration-300 translate-x-full opacity-0 z-50">
+        <i data-lucide="check-circle" class="w-5 h-5 text-wa-200"></i>
+        <div class="flex flex-col">
+            <span class="font-bold text-sm" id="toastTitle">Berhasil</span>
+            <span class="text-xs text-wa-100" id="toastMessage">Data disimpan.</span>
+        </div>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        lucide.createIcons();
+    </script>
 </body>
 </html>

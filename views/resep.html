@@ -1,0 +1,103 @@
+<div class="w-full mx-auto flex flex-col h-full relative animate-fadeIn p-3 sm:p-4 md:p-8">
+    
+    <div class="flex flex-col sm:flex-row justify-between sm:items-end gap-3 mb-4 sm:mb-6">
+        <div>
+            <h2 class="text-xl font-extrabold text-slate-800">🛒 Daftar Belanja (Bahan Baku)</h2>
+            <p class="text-sm text-slate-500 font-medium mt-1">Catat semua bahan yang Anda beli beserta harganya di sini.</p>
+        </div>
+        <button id="btnTambahBahanMaster" class="w-full sm:w-auto px-4 py-2.5 bg-wa-800 text-white rounded-xl text-sm font-bold hover:bg-wa-900 transition-colors shadow-md flex items-center justify-center gap-2">
+            <i data-lucide="plus" class="w-4 h-4"></i> Tambah Bahan
+        </button>
+    </div>
+
+    <!-- Table Container -->
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 flex-1 flex flex-col">
+        <!-- Search and Filter -->
+        <div class="p-3 sm:p-4 border-b border-slate-100 flex flex-col sm:flex-row gap-3 bg-slate-50 rounded-t-2xl">
+            <div class="relative w-full sm:max-w-sm">
+                <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"></i>
+                <input type="text" id="inpSearchMasterBahan" placeholder="Cari bahan (misal: beras, ayam)..." class="w-full pl-9 pr-3 py-2.5 bg-white border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-wa-500/20 focus:border-wa-500 outline-none transition-all">
+            </div>
+            <select id="selKategoriFilter" class="w-full sm:w-auto px-4 py-2.5 border border-slate-300 rounded-xl text-sm text-slate-700 bg-white font-medium focus:ring-2 focus:ring-wa-500/20 outline-none">
+                <option value="all">Semua Jenis Bahan</option>
+                <!-- Injected via JS -->
+            </select>
+        </div>
+
+        <!-- Responsive Table Container -->
+        <div class="flex-1 overflow-auto bg-slate-50/50 p-2 sm:p-0">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-sm text-slate-600 bg-white sm:rounded-none rounded-xl shadow-sm sm:shadow-none border border-slate-100 sm:border-none">
+                    <thead class="text-[11px] sm:text-xs uppercase bg-slate-50 text-slate-500 font-bold sticky top-0 shadow-sm z-10 border-b border-slate-100 sm:border-none">
+                        <tr>
+                            <th class="p-3 sm:px-6 sm:py-4">Nama Bahan</th>
+                            <th class="hidden sm:table-cell p-3 sm:px-6 sm:py-4">Jenis</th>
+                            <th class="p-3 sm:px-6 sm:py-4">Isi Pembelian</th>
+                            <th class="p-3 sm:px-6 sm:py-4 text-right">Harga Beli</th>
+                            <th class="p-3 sm:px-6 sm:py-4 text-center w-24">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBodyBahan" class="divide-y divide-slate-100">
+                        <!-- Rows injected via JS -->
+                    </tbody>
+                </table>
+            </div>
+            <div id="emptyStateBahan" class="hidden flex flex-col items-center justify-center p-12 text-slate-400">
+                <i data-lucide="inbox" class="w-12 h-12 mb-3"></i>
+                <p class="font-medium text-sm">Belum ada bahan baku yang dicatat.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Tambah/Edit Bahan -->
+<div id="modalFormBahan" class="fixed inset-0 z-50 flex items-end sm:items-center justify-center hidden">
+    <div id="modalFormBahanBackdrop" class="absolute inset-0 bg-slate-900/50 backdrop-blur-sm"></div>
+    <div class="relative bg-white rounded-t-3xl sm:rounded-2xl shadow-2xl w-full sm:max-w-md overflow-hidden animate-fadeIn max-h-[90vh] flex flex-col">
+        <div class="p-4 border-b border-slate-100 flex justify-between items-center bg-slate-50 shrink-0">
+            <h3 id="modalBahanTitle" class="font-extrabold text-slate-800 text-base">Tambah Catatan Belanja</h3>
+            <button id="btnCloseModalFormBahan" class="text-slate-400 hover:text-slate-600 p-2 rounded-xl transition-colors bg-white shadow-sm border border-slate-200">
+                <i data-lucide="x" class="w-4 h-4"></i>
+            </button>
+        </div>
+        <form id="formBahan" class="p-4 space-y-4 overflow-y-auto">
+            <input type="hidden" id="inpBahanId">
+            <div>
+                <label class="block text-sm font-bold text-slate-700 mb-1">Nama Bahan <span class="text-red-500">*</span></label>
+                <input type="text" id="inpBahanName" required placeholder="Contoh: Ayam Negeri Utuh" class="w-full px-4 py-2.5 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-wa-500/20 focus:border-wa-500 outline-none transition-all bg-slate-50">
+            </div>
+            <div>
+                <label class="block text-sm font-bold text-slate-700 mb-1">Jenis Bahan <span class="text-red-500">*</span></label>
+                <select id="inpBahanKategori" required class="w-full px-4 py-2.5 border border-slate-300 rounded-xl text-sm text-slate-700 bg-slate-50 focus:ring-2 focus:ring-wa-500/20 outline-none">
+                    <!-- Injected via JS -->
+                </select>
+            </div>
+            
+            <div class="bg-blue-50/50 border border-blue-100 rounded-xl p-3">
+                <p class="text-xs font-bold text-blue-800 mb-2">Informasi Pembelian</p>
+                <div class="grid grid-cols-2 gap-3 mb-3">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Satuan Ukur <span class="text-red-500">*</span></label>
+                        <input type="text" id="inpBahanSatuan" placeholder="gram, ml, pcs" required class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-wa-500/20 outline-none bg-white">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Total Isi <span class="text-red-500">*</span></label>
+                        <input type="number" id="inpBahanKuantitas" placeholder="1000" required min="1" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-wa-500/20 outline-none bg-white">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Harga Beli Semuanya (Rp) <span class="text-red-500">*</span></label>
+                    <input type="number" id="inpBahanHarga" required min="0" placeholder="50000" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-wa-500/20 outline-none bg-white">
+                </div>
+                <p class="text-[10px] text-slate-500 mt-2 leading-relaxed">
+                    💡 <strong>Contoh:</strong> Beli 1 Kilogram (1000 gram) ayam harganya Rp 35.000. Maka isi "Satuan" = <strong>gram</strong>, "Total Isi" = <strong>1000</strong>, "Harga Beli" = <strong>35000</strong>.
+                </p>
+            </div>
+            
+            <div class="pt-2 flex justify-end gap-2">
+                <button type="button" id="btnCancelFormBahan" class="px-4 py-2.5 text-sm font-bold text-slate-600 bg-white border border-slate-300 rounded-xl hover:bg-slate-50 transition-colors">Batal</button>
+                <button type="submit" class="px-6 py-2.5 text-sm font-bold text-white bg-wa-800 rounded-xl hover:bg-wa-900 shadow-md transition-colors flex-1 sm:flex-none">Simpan Bahan</button>
+            </div>
+        </form>
+    </div>
+</div>

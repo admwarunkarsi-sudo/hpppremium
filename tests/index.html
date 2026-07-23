@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Warunk Arsi - Test Runner</title>
+    <style>
+        body { font-family: monospace; background: #111; color: #fff; padding: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Automated Test Runner (Console)</h1>
+    <p>Silakan buka browser console (F12) untuk melihat hasil test.</p>
+    <script type="module">
+        import { runHPPEngineTests } from './engines/hppEngine.test.js';
+        import { runPricingEngineTests } from './engines/pricingEngine.test.js';
+        import { TestRunner } from './testRunner.js';
+
+        // Execute all suites
+        runHPPEngineTests();
+        runPricingEngineTests();
+
+        // Show summary
+        TestRunner.summary();
+    </script>
+</body>
+</html>

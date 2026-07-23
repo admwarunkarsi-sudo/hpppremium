@@ -1,0 +1,85 @@
+<div class="w-full mx-auto flex flex-col h-full relative animate-fadeIn p-3 sm:p-4 md:p-8 space-y-4 sm:space-y-6">
+    
+    <div class="flex flex-col sm:flex-row justify-between sm:items-end gap-3 mb-2">
+        <div>
+            <h2 class="text-xl font-extrabold text-slate-800">📈 Buku Laporan Usaha</h2>
+            <p class="text-sm text-slate-500 font-medium mt-1">Lihat ringkasan keuntungan dan modal dari semua masakan Anda.</p>
+        </div>
+        <button onclick="window.print()" class="w-full sm:w-auto px-4 py-2.5 bg-white border border-slate-300 text-slate-700 rounded-xl text-sm font-bold hover:bg-slate-50 transition-colors shadow-sm flex items-center justify-center gap-2">
+            <i data-lucide="printer" class="w-4 h-4"></i> Cetak Laporan
+        </button>
+    </div>
+
+    <!-- Analytics Overview -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-6">
+        <div class="bg-white rounded-2xl p-4 sm:p-6 border border-slate-200 shadow-sm relative overflow-hidden group hover:border-blue-200 transition-colors">
+            <div class="absolute -right-4 -top-4 w-24 h-24 bg-blue-50 text-blue-100 rounded-full flex items-center justify-center -z-0 opacity-50 group-hover:scale-110 transition-transform">
+                <i data-lucide="pie-chart" class="w-12 h-12"></i>
+            </div>
+            <div class="relative z-10">
+                <p class="text-[11px] sm:text-sm font-bold text-slate-400 uppercase tracking-wider mb-1 sm:mb-2">Rata-Rata Keuntungan</p>
+                <div class="flex items-baseline gap-2">
+                    <h3 class="text-2xl sm:text-3xl font-black text-slate-800" id="laporanAvgMargin">0%</h3>
+                    <span class="text-[10px] sm:text-xs font-bold text-emerald-500 flex items-center bg-emerald-50 px-1.5 py-0.5 rounded-md"><i data-lucide="trending-up" class="w-3 h-3 mr-1"></i> Sehat</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-4 sm:p-6 border border-slate-200 shadow-sm relative overflow-hidden group hover:border-emerald-200 transition-colors">
+            <div class="absolute -right-4 -top-4 w-24 h-24 bg-emerald-50 text-emerald-100 rounded-full flex items-center justify-center -z-0 opacity-50 group-hover:scale-110 transition-transform">
+                <i data-lucide="trending-up" class="w-12 h-12"></i>
+            </div>
+            <div class="relative z-10">
+                <p class="text-[11px] sm:text-sm font-bold text-slate-400 uppercase tracking-wider mb-1 sm:mb-2">Masakan Paling Untung</p>
+                <h3 class="text-lg sm:text-xl font-black text-slate-800 truncate" id="laporanBestRecipe">-</h3>
+                <p class="text-[10px] sm:text-xs text-slate-500 font-medium mt-1" id="laporanBestMargin">Keuntungan: 0%</p>
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-2xl p-4 sm:p-6 border border-slate-200 shadow-sm relative overflow-hidden group hover:border-purple-200 transition-colors">
+            <div class="absolute -right-4 -top-4 w-24 h-24 bg-purple-50 text-purple-100 rounded-full flex items-center justify-center -z-0 opacity-50 group-hover:scale-110 transition-transform">
+                <i data-lucide="box" class="w-12 h-12"></i>
+            </div>
+            <div class="relative z-10">
+                <p class="text-[11px] sm:text-sm font-bold text-slate-400 uppercase tracking-wider mb-1 sm:mb-2">Total Porsi Masakan</p>
+                <h3 class="text-2xl sm:text-3xl font-black text-slate-800" id="laporanTotalPorsi">0</h3>
+                <p class="text-[10px] sm:text-xs text-slate-500 font-medium mt-1">Dari semua resep yang disimpan</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Table Container -->
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 flex-1 flex flex-col overflow-hidden">
+        <div class="p-4 sm:p-5 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+            <h3 class="font-extrabold text-slate-800 flex items-center gap-2 text-sm sm:text-base">
+                <i data-lucide="bar-chart-2" class="w-4 h-4 text-wa-600"></i> Rincian Modal & Keuntungan per Menu
+            </h3>
+        </div>
+
+        <!-- Table -->
+        <div class="flex-1 overflow-auto bg-slate-50/50 p-2 sm:p-0">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-sm text-slate-600 min-w-[700px] bg-white sm:rounded-none rounded-xl shadow-sm sm:shadow-none border border-slate-100 sm:border-none">
+                    <thead class="text-[11px] sm:text-xs uppercase bg-slate-50 text-slate-500 font-bold sticky top-0 shadow-sm z-10 border-b border-slate-100 sm:border-none">
+                        <tr>
+                            <th class="p-3 sm:px-6 sm:py-4">Nama Menu / Masakan</th>
+                            <th class="p-3 sm:px-6 sm:py-4 text-center">Berapa Porsi</th>
+                            <th class="p-3 sm:px-6 sm:py-4 text-right">Modal Masak (HPP)</th>
+                            <th class="p-3 sm:px-6 sm:py-4 text-right">Harga Jual (Makan di Tempat)</th>
+                            <th class="p-3 sm:px-6 sm:py-4 text-center">Keuntungan %</th>
+                            <th class="p-3 sm:px-6 sm:py-4 text-center">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBodyLaporan" class="divide-y divide-slate-100">
+                        <!-- Rows injected via JS -->
+                    </tbody>
+                </table>
+            </div>
+            <div id="emptyStateLaporan" class="hidden flex flex-col items-center justify-center p-12 text-slate-400">
+                <i data-lucide="inbox" class="w-12 h-12 mb-3"></i>
+                <p class="font-medium text-sm text-center">Belum ada laporan.<br>Simpan resep Anda terlebih dahulu.</p>
+            </div>
+        </div>
+    </div>
+
+</div>
